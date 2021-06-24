@@ -1,32 +1,34 @@
+import 'package:interview_getx/modules/auth/auth.dart';
+import 'package:interview_getx/modules/home/home.dart';
+import 'package:interview_getx/modules/modules.dart';
 import 'package:get/get.dart';
-
-import '../pages/home/bindings/home_binding.dart';
-import '../pages/home/presentation/views/country_view.dart';
-import '../pages/home/presentation/views/details_view.dart';
-import '../pages/home/presentation/views/home_view.dart';
 
 part 'app_routes.dart';
 
-// ignore: avoid_classes_with_only_static_members
-class AppPages {
-  static const INITIAL = Routes.HOME;
+const INITIAL = Routes.SPLASH;
 
-  static final routes = [
-    GetPage(
-        name: Routes.HOME,
-        page: () => HomeView(),
-        binding: HomeBinding(),
-        children: [
-          GetPage(
-            name: Routes.COUNTRY,
-            page: () => CountryView(),
-            children: [
-              GetPage(
-                name: Routes.DETAILS,
-                page: () => DetailsView(),
-              ),
-            ],
-          ),
-        ]),
-  ];
-}
+final routePages = [
+  GetPage(
+    name: Routes.SPLASH,
+    page: () => SplashScreen(),
+    binding: SplashBinding(),
+  ),
+  GetPage(
+    name: Routes.AUTH,
+    page: () => AuthScreen(),
+    binding: AuthBinding(),
+    children: [
+      GetPage(name: Routes.REGISTER, page: () => RegisterScreen()),
+      GetPage(name: Routes.LOGIN, page: () => LoginScreen()),
+    ],
+  ),
+  GetPage(
+    name: Routes.HOME,
+    page: () => HomeScreen(),
+    binding: HomeBinding(),
+    children: const [
+      // TODO:
+      // GetPage(name: Routes.CARDS, page: () => CardsScreen()),
+    ],
+  ),
+];

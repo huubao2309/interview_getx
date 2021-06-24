@@ -1,0 +1,87 @@
+import 'package:flutter/cupertino.dart';
+import 'package:interview_getx/api/api.dart';
+import 'package:interview_getx/modules/auth/auth.dart';
+import 'package:interview_getx/modules/home/home.dart';
+import 'package:interview_getx/routes/routes.dart';
+import 'package:interview_getx/shared/shared.dart';
+import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class HomeController extends GetxController {
+  HomeController({required this.apiRepository});
+
+  final ApiRepository apiRepository;
+
+  var currentTab = MainTabs.home.obs;
+  var userApp = Rxn<String>();
+  RxBool result = false.obs;
+
+  late MainTab mainTab;
+  late SettingTab settingTab;
+
+  @override
+  Future<void> onInit() async {
+    super.onInit();
+
+    mainTab = MainTab();
+    await loadUsers();
+
+    settingTab = SettingTab();
+  }
+
+  Future<void> loadUsers() async {
+    final prefs = Get.find<SharedPreferences>();
+    final user = prefs.get(StorageConstants.userId) ?? 'no_name'.tr;
+    userApp.value = user.toString();
+  }
+
+  void logOut() {
+    Get.find<SharedPreferences>().clear();
+
+    try {
+      final authController = Get.find<AuthController>();
+      if (authController.initialized) {
+        authController.loginUserNameController.value = TextEditingValue.empty;
+        authController.loginPasswordController.value = TextEditingValue.empty;
+        Get.back();
+      } else {
+        Get
+          ..lazyPut(() => AuthController(apiRepository: apiRepository))
+          ..offAllNamed(Routes.AUTH);
+      }
+    } catch (e) {
+      Get
+        ..lazyPut(() => AuthController(apiRepository: apiRepository))
+        ..toNamed(Routes.AUTH);
+    } finally {
+      currentTab.value = MainTabs.home;
+    }
+  }
+
+  void switchTab(index) {
+    final tab = _getCurrentTab(index);
+    currentTab.value = tab;
+  }
+
+  int getCurrentIndex(MainTabs tab) {
+    switch (tab) {
+      case MainTabs.home:
+        return 0;
+      case MainTabs.setting:
+        return 1;
+      default:
+        return 0;
+    }
+  }
+
+  MainTabs _getCurrentTab(int index) {
+    switch (index) {
+      case 0:
+        return MainTabs.home;
+      case 1:
+        return MainTabs.setting;
+      default:
+        return MainTabs.home;
+    }
+  }
+}
