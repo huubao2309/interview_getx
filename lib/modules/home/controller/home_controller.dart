@@ -3,6 +3,7 @@ import 'package:interview_getx/api/api.dart';
 import 'package:interview_getx/modules/auth/auth.dart';
 import 'package:interview_getx/modules/home/home.dart';
 import 'package:interview_getx/routes/routes.dart';
+import 'package:interview_getx/shared/dialog_manager/dialog.dart';
 import 'package:interview_getx/shared/shared.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -33,6 +34,22 @@ class HomeController extends GetxController {
     final prefs = Get.find<SharedPreferences>();
     final user = prefs.get(StorageConstants.userId) ?? 'no_name'.tr;
     userApp.value = user.toString();
+  }
+
+  Future<void> doShowDialog(DialogRequest dialogRequest) async {
+    final locator = Get.find<DialogService>();
+    final dialogResult = await locator.showDialog(
+      title: dialogRequest.title ?? 'info'.tr,
+      description: dialogRequest.description,
+      typeDialog: dialogRequest.typeDialog ?? DIALOG_TWO_BUTTON,
+    );
+
+    if (dialogResult.confirmed) {
+      print('User Logout');
+      logOut();
+    } else {
+      print('User do not logout!');
+    }
   }
 
   void logOut() {

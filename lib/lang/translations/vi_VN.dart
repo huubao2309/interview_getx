@@ -47,4 +47,5 @@ const Map<String, String> vi_VN = {
   'alert': 'Cảnh báo',
   'loading': 'Đang tải',
   'no_name': 'Thông tin người dùng',
+  'info': 'Thông tin',
 };

@@ -5,5 +5,6 @@ import 'shared/services/services.dart';
 class DependencyInjection {
   static Future<void> init() async {
     await Get.putAsync(() => StorageService().init());
+    await Get.putAsync(() => LocateService().init());
   }
 }

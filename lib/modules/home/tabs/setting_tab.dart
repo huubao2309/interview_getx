@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:interview_getx/modules/home/home.dart';
+import 'package:interview_getx/shared/dialog_manager/data_models/dialog_request.dart';
 import 'package:interview_getx/shared/shared.dart';
 import 'package:get/get.dart';
 
@@ -68,7 +69,8 @@ class SettingTab extends GetView<HomeController> {
       margin: const EdgeInsets.only(left: 12, right: 12, bottom: 20),
       child: GestureDetector(
         onTap: () async {
-          controller.logOut();
+          final dialogRequest = DialogRequest(title: 'alert'.tr, description: 'has_logout_message'.tr);
+          await controller.doShowDialog(dialogRequest);
         },
         child: Card(
           color: Colors.white,

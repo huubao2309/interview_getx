@@ -7,6 +7,7 @@ import 'app_binding.dart';
 import 'di.dart';
 import 'lang/lang.dart';
 import 'routes/routes.dart';
+import 'shared/dialog_manager/dialog.dart';
 import 'shared/theme/theme.dart';
 
 Future<void> main() async {
@@ -33,7 +34,15 @@ class App extends StatelessWidget {
       locale: TranslationService.locale,
       fallbackLocale: TranslationService.fallbackLocale,
       translations: TranslationService(),
-      builder: EasyLoading.init(),
+      builder: EasyLoading.init(builder: (context, widget) {
+        return Navigator(
+          onGenerateRoute: (settings) => MaterialPageRoute(
+            builder: (context) => DialogManager(
+              child: widget!,
+            ),
+          ),
+        );
+      }),
     );
   }
 }

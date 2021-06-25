@@ -47,4 +47,5 @@ const Map<String, String> en_US = {
   'alert': 'Alert',
   'loading': 'Loading',
   'no_name': 'Anonymous',
+  'info': 'Info',
 };
