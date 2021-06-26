@@ -1,12 +1,13 @@
 import 'package:get/get.dart';
-import 'package:interview_getx/api/interceptors/auth_interceptor.dart';
-import 'package:interview_getx/api/interceptors/request_interceptor.dart';
-import 'package:interview_getx/api/interceptors/response_interceptor.dart';
-import 'package:interview_getx/config/config_environment.dart';
-import 'package:interview_getx/shared/constants/common.dart';
+import '../../config/config_environment.dart';
+import '../../data/interceptors/auth_interceptor.dart';
+import '../../data/interceptors/request_interceptor.dart';
+import '../../data/interceptors/response_interceptor.dart';
+import '../../shared/constants/common.dart';
 
 class BaseProvider extends GetConnect {
   final config = Get.find<EnvConfiguration>();
+
   @override
   void onInit() {
     httpClient

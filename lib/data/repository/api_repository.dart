@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:interview_getx/api/common/define_api.dart';
-import 'package:interview_getx/api/service/api_provider.dart';
-import 'package:interview_getx/models/request/login_request.dart';
-import 'package:interview_getx/models/request/register_request.dart';
-import 'package:interview_getx/models/response/login_response.dart';
-import 'package:interview_getx/models/response/register_response.dart';
+import '../../data/common/define_api.dart';
+import '../../data/service/api_provider.dart';
+import '../../models/request/login_request.dart';
+import '../../models/request/register_request.dart';
+import '../../models/response/login_response.dart';
+import '../../models/response/register_response.dart';
 
 class ApiRepository {
   ApiRepository({required this.apiProvider});

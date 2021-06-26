@@ -1,16 +1,16 @@
 import 'package:flutter/cupertino.dart';
-import 'package:interview_getx/api/repository/api_repository.dart';
-import 'package:interview_getx/modules/auth/controller/auth_controller.dart';
-import 'package:interview_getx/modules/home/tabs/home_tab.dart';
-import 'package:interview_getx/modules/home/tabs/setting_tab.dart';
-import 'package:interview_getx/modules/home/tabs/tabs.dart';
-import 'package:interview_getx/routes/app_pages.dart';
-import 'package:interview_getx/shared/constants/storage.dart';
-import 'package:interview_getx/shared/dialog_manager/data_models/dialog_request.dart';
-import 'package:interview_getx/shared/dialog_manager/data_models/type_dialog.dart';
 import 'package:get/get.dart';
 import 'package:interview_getx/shared/dialog_manager/services/dialog_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../../data/repository/api_repository.dart';
+import '../../../modules/auth/controller/auth_controller.dart';
+import '../../../modules/home/tabs/home_tab.dart';
+import '../../../modules/home/tabs/setting_tab.dart';
+import '../../../modules/home/tabs/tabs.dart';
+import '../../../routes/app_pages.dart';
+import '../../../shared/constants/storage.dart';
+import '../../../shared/dialog_manager/data_models/dialog_request.dart';
+import '../../../shared/dialog_manager/data_models/type_dialog.dart';
 
 class HomeController extends GetxController {
   HomeController({required this.apiRepository});

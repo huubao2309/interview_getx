@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:interview_getx/api/common/define_field.dart';
+import '../../data/common/define_field.dart';
 
 class ErrorResponse {
   ErrorResponse({

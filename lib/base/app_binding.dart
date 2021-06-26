@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:interview_getx/api/repository/api_repository.dart';
-import 'package:interview_getx/api/service/api_provider.dart';
+import '../data/repository/api_repository.dart';
+import '../data/service/api_provider.dart';
 
 class AppBinding extends Bindings {
   @override
