@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../shared.dart';
+import '../../../shared/utils/common_widget.dart';
 
 class AppCheckbox extends StatefulWidget {
   const AppCheckbox({this.label, this.checked, this.onChecked});

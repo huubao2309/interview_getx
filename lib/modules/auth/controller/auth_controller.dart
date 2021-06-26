@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:interview_getx/api/api.dart';
-import 'package:interview_getx/models/models.dart';
+import 'package:interview_getx/api/repository/api_repository.dart';
+import 'package:interview_getx/models/request/login_request.dart';
+import 'package:interview_getx/models/request/register_request.dart';
 import 'package:interview_getx/routes/app_pages.dart';
-import 'package:interview_getx/shared/shared.dart';
+import 'package:interview_getx/shared/constants/storage.dart';
 import 'package:get/get.dart';
+import 'package:interview_getx/shared/utils/common_widget.dart';
+import 'package:interview_getx/shared/utils/focus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthController extends GetxController {

@@ -1,9 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:interview_getx/modules/auth/auth.dart';
-import 'package:interview_getx/routes/routes.dart';
-import 'package:interview_getx/shared/shared.dart';
+import 'package:interview_getx/modules/auth/controller/auth_controller.dart';
+import 'package:interview_getx/routes/app_pages.dart';
+import 'package:interview_getx/shared/constants/colors.dart';
+import 'package:interview_getx/shared/constants/common.dart';
 import 'package:get/get.dart';
+import 'package:interview_getx/shared/utils/size_config.dart';
+import 'package:interview_getx/shared/widgets/button/border_button.dart';
+import 'package:interview_getx/shared/widgets/button/gradient_button.dart';
 
 class AuthScreen extends GetView<AuthController> {
   @override
@@ -43,7 +47,7 @@ class AuthScreen extends GetView<AuthController> {
               ),
               const SizedBox(height: 50),
               GradientButton(
-                text: 'Login'.toUpperCase(),
+                text: 'login'.tr.toUpperCase(),
                 onPressed: () {
                   Get.toNamed(Routes.AUTH + Routes.LOGIN, arguments: controller);
                 },
@@ -52,7 +56,7 @@ class AuthScreen extends GetView<AuthController> {
               BorderButton(
                 backgroundColor: Colors.white,
                 textColor: Colors.green,
-                text: 'Register'.toUpperCase(),
+                text: 'register'.tr.toUpperCase(),
                 onPressed: () {
                   Get.toNamed(Routes.AUTH + Routes.REGISTER, arguments: controller);
                 },
@@ -65,7 +69,7 @@ class AuthScreen extends GetView<AuthController> {
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Text(
-              'Version: 1.0.0',
+              '${'version'.tr}: 1.0.0',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: CommonConstants.smallText,

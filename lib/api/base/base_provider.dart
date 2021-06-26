@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
-
-import '../api.dart';
+import 'package:interview_getx/api/common/api_constants.dart';
+import 'package:interview_getx/api/interceptors/auth_interceptor.dart';
+import 'package:interview_getx/api/interceptors/request_interceptor.dart';
+import 'package:interview_getx/api/interceptors/response_interceptor.dart';
 
 class BaseProvider extends GetConnect {
   @override

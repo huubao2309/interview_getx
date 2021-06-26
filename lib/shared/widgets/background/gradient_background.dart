@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:interview_getx/shared/shared.dart';
+import 'package:interview_getx/shared/constants/colors.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 

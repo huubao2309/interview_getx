@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:interview_getx/shared/shared.dart';
 import 'package:get/get.dart';
+import 'package:interview_getx/shared/utils/common_widget.dart';
+import 'package:interview_getx/shared/utils/regex.dart';
+import 'package:interview_getx/shared/widgets/background/gradient_background.dart';
+import 'package:interview_getx/shared/widgets/button/border_button.dart';
+import 'package:interview_getx/shared/widgets/text_input/input_field.dart';
 
 import '../controller/auth_controller.dart';
 

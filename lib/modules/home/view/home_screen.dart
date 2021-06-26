@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:interview_getx/modules/home/home.dart';
+import 'package:interview_getx/modules/home/controller/home_controller.dart';
 import 'package:interview_getx/modules/home/tabs/tabs.dart';
-import 'package:interview_getx/shared/shared.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:interview_getx/shared/constants/colors.dart';
 
 class HomeScreen extends GetView<HomeController> {
   @override

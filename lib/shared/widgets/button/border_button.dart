@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../shared.dart';
+import '../../../shared/constants/colors.dart';
 
 class BorderButton extends StatelessWidget {
   BorderButton({
@@ -80,7 +79,7 @@ class _GradientPainter extends CustomPainter {
     required double radius,
     required Gradient gradient,
   })  : strokeWidth = strokeWidth = 0.0,
-        radius = radius= 0.0,
+        radius = radius = 0.0,
         // ignore: prefer_initializing_formals
         gradient = gradient;
 

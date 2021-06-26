@@ -1,8 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-
-import '../../shared.dart';
+import '../../../shared/utils/size_config.dart';
 
 class FocusedMenuDetails extends StatefulWidget {
   const FocusedMenuDetails({

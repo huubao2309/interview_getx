@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:interview_getx/modules/home/home.dart';
 
 import 'package:get/get.dart';
+import 'package:interview_getx/modules/home/controller/home_controller.dart';
 
 class MainTab extends GetView<HomeController> {
   @override

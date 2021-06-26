@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
+import '../shared/services/locator_service.dart';
+import '../shared/services/storage_service.dart';
 
-import 'shared/services/services.dart';
 
 class DependencyInjection {
   static Future<void> init() async {

@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:interview_getx/modules/home/home.dart';
+import 'package:interview_getx/modules/home/controller/home_controller.dart';
 import 'package:interview_getx/shared/dialog_manager/data_models/dialog_request.dart';
-import 'package:interview_getx/shared/shared.dart';
 import 'package:get/get.dart';
+import 'package:interview_getx/shared/utils/common_widget.dart';
 
 class SettingTab extends GetView<HomeController> {
   @override

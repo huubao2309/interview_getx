@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:interview_getx/modules/auth/auth.dart';
-import 'package:interview_getx/shared/shared.dart';
+import 'package:interview_getx/modules/auth/controller/auth_controller.dart';
 import 'package:get/get.dart';
+import 'package:interview_getx/shared/utils/common_widget.dart';
+import 'package:interview_getx/shared/utils/regex.dart';
+import 'package:interview_getx/shared/widgets/background/gradient_background.dart';
+import 'package:interview_getx/shared/widgets/button/border_button.dart';
+import 'package:interview_getx/shared/widgets/check_box/app_check_box.dart';
+import 'package:interview_getx/shared/widgets/text_input/input_field.dart';
 
 class RegisterScreen extends StatelessWidget {
   final AuthController controller = Get.arguments;

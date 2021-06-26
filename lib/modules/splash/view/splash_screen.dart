@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:interview_getx/shared/shared.dart';
 import 'package:get/get.dart';
+import 'package:interview_getx/shared/utils/size_config.dart';
 
 class SplashScreen extends StatelessWidget {
   @override

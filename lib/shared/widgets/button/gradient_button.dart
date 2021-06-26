@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../../shared.dart';
+import '../../../shared/constants/colors.dart';
+import '../../../shared/constants/common.dart';
 
 class GradientButton extends StatelessWidget {
   const GradientButton({

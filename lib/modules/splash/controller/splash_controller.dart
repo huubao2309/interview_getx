@@ -1,5 +1,5 @@
-import 'package:interview_getx/routes/routes.dart';
-import 'package:interview_getx/shared/shared.dart';
+import 'package:interview_getx/routes/app_pages.dart';
+import 'package:interview_getx/shared/constants/storage.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

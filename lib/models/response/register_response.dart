@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:interview_getx/api/api.dart';
+import 'package:interview_getx/api/common/define_field.dart';
 
 class RegisterResponse {
   RegisterResponse({
