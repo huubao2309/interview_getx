@@ -48,4 +48,7 @@ const Map<String, String> en_US = {
   'loading': 'Loading',
   'no_name': 'Anonymous',
   'info': 'Info',
+  'expired_token': 'Login session has expired. Please log in again.',
+  'id': 'Id',
+  'title': 'Title',
 };

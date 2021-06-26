@@ -5,6 +5,7 @@ class DialogRequest {
     this.typeDialog,
     this.isMustTapButton,
     this.titleButton,
+    this.defineEvent,
   });
 
   final String? title;
@@ -12,4 +13,5 @@ class DialogRequest {
   final String? typeDialog;
   final bool? isMustTapButton;
   final String? titleButton;
+  final String? defineEvent;
 }

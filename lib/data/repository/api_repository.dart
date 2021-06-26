@@ -1,6 +1,7 @@
 import 'dart:async';
-
+import 'package:interview_getx/data/interceptors/graphql_interceptor.dart';
 import '../../data/common/define_api.dart';
+import '../../data/graphql/query/demo_query_graphql.dart';
 import '../../data/service/api_provider.dart';
 import '../../models/request/login_request.dart';
 import '../../models/request/register_request.dart';
@@ -26,10 +27,22 @@ class ApiRepository {
     }
   }
 
-// Future<UsersResponse?> getUsers() async {
-//   final res = await apiProvider.getUsers('/api/users?page=1&per_page=12');
-//   if (res.statusCode == 200) {
-//     return UsersResponse.fromJson(res.body);
-//   }
-// }
+  Future<List<GetActiveTodos$Query$TodosSelectColumn>> getList({required int limit, required int offset}) async {
+    final c = Completer<List<GetActiveTodos$Query$TodosSelectColumn>>();
+    try {
+      final results = await apiProvider.getListTodo(limit: limit, offset: offset);
+      if (!results.hasException) {
+        final listTodo = GetActiveTodos$Query.fromJson(results.data!).todos;
+        c.complete(listTodo);
+      } else {
+        print('Exception: ${results.exception}');
+        c.completeError(handleErrorGraphQL(results.exception!));
+      }
+    } catch (ex, stackTrace) {
+      print(stackTrace.toString());
+      c.completeError(ex.toString());
+    }
+
+    return c.future;
+  }
 }

@@ -48,4 +48,7 @@ const Map<String, String> vi_VN = {
   'loading': 'Đang tải',
   'no_name': 'Thông tin người dùng',
   'info': 'Thông tin',
+  'expired_token': 'Đã hết phiên đăng nhập. Vui lòng đăng nhập lại.',
+  'id': 'Id',
+  'title': 'Tiêu đề',
 };

@@ -17,3 +17,10 @@ const TOTAL_FIELD = 'total';
 const TOTAL_PAGES_FIELD = 'total_pages';
 const DATA_FIELD = 'data';
 const SUPPORT_FIELD = 'support';
+
+// TimeOut
+const TIME_OUT_SECOND = '30';
+
+const ErrorExpiredTokenCode = 'unauthorized';
+const Unauthorized_Error_Code = 401;
+const Unknown_Error = 'unknown_error';
