@@ -6,6 +6,7 @@ import 'base/app_binding.dart';
 import 'lang/translation_service.dart';
 import 'routes/app_pages.dart';
 import 'shared/constants/colors.dart';
+import 'shared/constants/common.dart';
 import 'shared/dialog_manager/managers/dialog_manager.dart';
 import 'shared/theme/theme_data.dart';
 
@@ -20,7 +21,7 @@ class App extends StatelessWidget {
       getPages: routePages,
       initialBinding: AppBinding(),
       smartManagement: SmartManagement.keepFactory,
-      title: 'Interview Project',
+      title: APP_NAME,
       theme: ThemeConfig.lightTheme,
       locale: TranslationService.locale,
       fallbackLocale: TranslationService.fallbackLocale,

@@ -4,6 +4,7 @@ import 'package:interview_getx/shared/constants/colors.dart';
 
 class ThemeConfig {
   ThemeConfig();
+
   static ThemeData createTheme({
     required Brightness brightness,
     required Color background,
@@ -17,9 +18,7 @@ class ThemeConfig {
     Color? cardBackground,
     Color? disabled,
   }) {
-    final baseTextTheme = brightness == Brightness.dark
-        ? Typography.blackMountainView
-        : Typography.whiteMountainView;
+    final baseTextTheme = brightness == Brightness.dark ? Typography.blackMountainView : Typography.whiteMountainView;
 
     return ThemeData(
       brightness: brightness,
@@ -105,7 +104,7 @@ class ThemeConfig {
         ),
       ),
       fontFamily: 'Rubik',
-      unselectedWidgetColor: hexToColor('#DADCDD'),
+      unselectedWidgetColor: Colors.grey,
       textTheme: TextTheme(
         headline1: baseTextTheme.headline1!.copyWith(
           color: primaryText,
@@ -178,7 +177,7 @@ class ThemeConfig {
   static ThemeData get lightTheme => createTheme(
         brightness: Brightness.light,
         background: ColorConstants.lightScaffoldBackgroundColor,
-        cardBackground: ColorConstants.secondaryAppColor,
+        cardBackground: Colors.green,
         primaryText: Colors.black,
         secondaryText: Colors.white,
         accentColor: ColorConstants.secondaryAppColor,

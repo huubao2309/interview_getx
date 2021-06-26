@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:interview_getx/modules/auth/controller/auth_controller.dart';
 import 'package:interview_getx/routes/app_pages.dart';
-import 'package:interview_getx/shared/constants/colors.dart';
 import 'package:interview_getx/shared/constants/common.dart';
 import 'package:get/get.dart';
 import 'package:interview_getx/shared/utils/size_config.dart';
@@ -71,9 +70,9 @@ class AuthScreen extends GetView<AuthController> {
             child: Text(
               '${'version'.tr}: 1.0.0',
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: CommonConstants.smallText,
-                color: ColorConstants.tipColor,
+                color: Colors.grey,
               ),
             ),
           ),

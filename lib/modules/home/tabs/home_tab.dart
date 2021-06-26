@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:interview_getx/config/config_environment.dart';
 import 'package:interview_getx/modules/home/controller/home_controller.dart';
+import 'package:interview_getx/shared/constants/common.dart';
 
 class MainTab extends GetView<HomeController> {
+  final config = Get.find<EnvConfiguration>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,7 +16,9 @@ class MainTab extends GetView<HomeController> {
       //     child: _buildGridView(),
       //   ),
       // ),
-      body: Container(),
+      body: Center(
+        child: Text('${config.value[MediaApiEnvironment]}'),
+      ),
     );
   }
 
