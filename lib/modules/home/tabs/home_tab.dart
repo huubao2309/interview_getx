@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import '../../../config/config_environment.dart';
+import 'package:interview_getx/shared/styles/text_style.dart';
 import '../../../data/graphql/query/demo_query_graphql.dart';
 import '../../../modules/home/controller/home_controller.dart';
 import '../../../shared/utils/common_widget.dart';
 
 class MainTab extends GetView<HomeController> {
-  final config = Get.find<EnvConfiguration>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,9 +18,9 @@ class MainTab extends GetView<HomeController> {
             child: Obx(_listTodoWidget),
           ),
           Align(
-            alignment: Alignment.bottomLeft,
-            child: _buildUserName(),
-          )
+            alignment: Alignment.bottomCenter,
+            child: Obx(_buildUserName),
+          ),
         ],
       ),
     );
@@ -66,11 +64,6 @@ class MainTab extends GetView<HomeController> {
 
   Widget _detailOrderTransaction(GetActiveTodos$Query$TodosSelectColumn item, int index) {
     return Card(
-      color: const Color(0xFFfffbd5),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      elevation: 3,
       child: Container(
         height: 80,
         width: Get.width,
@@ -84,20 +77,12 @@ class MainTab extends GetView<HomeController> {
                 children: [
                   Text(
                     '${'id'.tr}: ',
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: Colors.green,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextAppStyle().bodyTitleTextStyle(),
                   ),
                   const SizedBox(width: 5),
                   Text(
                     item.id.toString(),
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextAppStyle().bodyContentTextStyle(),
                   ),
                 ],
               ),
@@ -108,20 +93,12 @@ class MainTab extends GetView<HomeController> {
                 children: [
                   Text(
                     '${'title'.tr}: ',
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: Colors.green,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextAppStyle().bodyTitleTextStyle(),
                   ),
                   const SizedBox(width: 5),
                   Text(
                     item.title,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextAppStyle().bodyContentTextStyle(),
                   ),
                 ],
               ),
@@ -134,17 +111,14 @@ class MainTab extends GetView<HomeController> {
 
   Widget _buildUserName() {
     return Container(
-      width: Get.width,
+      width: double.infinity,
       height: 30,
-      color: Colors.green,
+      color: Get.theme.primaryColor,
       child: Center(
         child: Text(
           controller.userApp.value ?? 'no_name'.tr,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextAppStyle().bodyContentTextStyle(),
+          textAlign: TextAlign.center,
         ),
       ),
     );

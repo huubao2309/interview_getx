@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:interview_getx/shared/utils/size_config.dart';
+import 'package:interview_getx/shared/styles/text_style.dart';
 
 class SplashScreen extends StatelessWidget {
   @override
@@ -27,19 +28,11 @@ class SplashScreen extends StatelessWidget {
               child: Text.rich(
                 TextSpan(
                   text: '${'version'.tr}: ',
-                  style: const TextStyle(
-                    fontSize: 20,
-                    color: Colors.grey,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  children: const [
+                  style: TextAppStyle().versionTextStyle(),
+                  children: [
                     TextSpan(
                       text: '1.0.0',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: TextAppStyle().bodyContentTextStyle(),
                     ),
                     // can add more TextSpans here...
                   ],

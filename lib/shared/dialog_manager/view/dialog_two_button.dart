@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:interview_getx/shared/constants/colors.dart';
 
 class DialogTwoButton extends StatelessWidget {
   const DialogTwoButton({
@@ -77,7 +78,7 @@ class DialogTwoButton extends StatelessWidget {
                         color: Colors.green,
                         elevation: 3,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6),
+                          borderRadius: BorderRadius.circular(8),
                         ),
                         child: Container(
                           height: 35,
@@ -97,14 +98,16 @@ class DialogTwoButton extends StatelessWidget {
                       ),
                     ),
                   ),
+                  const SizedBox(width: 10),
                   Expanded(
                     child: GestureDetector(
                       onTap: onPressedCancel,
                       child: Card(
                         color: Colors.white,
-                        elevation: 3,
+                        elevation: 4,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6),
+                          side: BorderSide(color: AppColor.primaryColorLight, width: 1),
+                          borderRadius: BorderRadius.circular(8),
                         ),
                         child: Container(
                           height: 35,

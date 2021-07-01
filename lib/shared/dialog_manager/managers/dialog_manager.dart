@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:interview_getx/shared/dialog_manager/data_models/dialog_request.dart';
-import 'package:interview_getx/shared/dialog_manager/data_models/dialog_response.dart';
+import 'package:interview_getx/shared/dialog_manager/data_models/request/common_dialog_request.dart';
+import 'package:interview_getx/shared/dialog_manager/data_models/request/language_dialog_resquest.dart';
+import 'package:interview_getx/shared/dialog_manager/data_models/response/common_dialog_response.dart';
+import 'package:interview_getx/shared/dialog_manager/data_models/response/language_dialog_response.dart';
 import 'package:interview_getx/shared/dialog_manager/data_models/type_dialog.dart';
 import 'package:get/get.dart';
 import 'package:interview_getx/shared/dialog_manager/services/dialog_service.dart';
+import 'package:interview_getx/shared/dialog_manager/view/chosen_language_dialog.dart';
 import 'package:interview_getx/shared/dialog_manager/view/dialog_one_button.dart';
 import 'package:interview_getx/shared/dialog_manager/view/dialog_two_button.dart';
 
@@ -22,7 +25,9 @@ class _DialogManagerState extends State<DialogManager> {
   @override
   void initState() {
     super.initState();
-    _dialogService.showDialogListener = _showDialog;
+    _dialogService
+      ..showCommonDialogListener = _showDialog
+      ..showLanguageDialogListener = _showLanguageDialog;
   }
 
   @override
@@ -30,7 +35,7 @@ class _DialogManagerState extends State<DialogManager> {
     return widget.child;
   }
 
-  Future<void> _showDialog(DialogRequest request) async {
+  Future<void> _showDialog(CommonDialogRequest request) async {
     await showDialog(
       context: context,
       barrierDismissible: request.isMustTapButton ?? false, // user must tap button!
@@ -40,7 +45,17 @@ class _DialogManagerState extends State<DialogManager> {
     );
   }
 
-  Widget _chooseTypeDialog(DialogRequest request) {
+  Future<void> _showLanguageDialog(LanguageDialogRequest request) async {
+    await showDialog(
+      context: context,
+      barrierDismissible: request.isMustTapButton ?? false, // user must tap button!
+      builder: (context) {
+        return _dialogLanguage(request);
+      },
+    );
+  }
+
+  Widget _chooseTypeDialog(CommonDialogRequest request) {
     switch (request.typeDialog) {
       case DIALOG_ONE_BUTTON:
         return _dialogOneButton(request);
@@ -53,29 +68,39 @@ class _DialogManagerState extends State<DialogManager> {
     }
   }
 
-  Widget _dialogOneButton(DialogRequest request) {
+  Widget _dialogOneButton(CommonDialogRequest request) {
     return DialogOneButton(
       title: request.title ?? 'info'.tr,
       content: request.description,
       textButton: request.titleButton ?? 'ok'.tr,
       onPressed: () async {
-        _dialogService.dialogComplete(DialogResponse(confirmed: true));
+        _dialogService.commonDialogComplete(CommonDialogResponse(confirmed: true));
         // Hide popup
         Navigator.of(context).pop('dialog');
       },
     );
   }
 
-  Widget _dialogTwoButton(DialogRequest request) {
+  Widget _dialogTwoButton(CommonDialogRequest request) {
     return DialogTwoButton(
       title: request.title ?? 'info'.tr,
       content: request.description,
       onPressedAgree: () {
-        _dialogService.dialogComplete(DialogResponse(confirmed: true));
+        _dialogService.commonDialogComplete(CommonDialogResponse(confirmed: true));
         Navigator.of(context).pop('dialog');
       },
       onPressedCancel: () {
-        _dialogService.dialogComplete(DialogResponse(confirmed: false));
+        _dialogService.commonDialogComplete(CommonDialogResponse(confirmed: false));
+        Navigator.of(context).pop('dialog');
+      },
+    );
+  }
+
+  Widget _dialogLanguage(LanguageDialogRequest request) {
+    return ChosenLanguageDialog(
+      languages: request.languages,
+      onChooseLanguage: (language) {
+        _dialogService.languageDialogComplete(LanguageDialogResponse(language: language));
         Navigator.of(context).pop('dialog');
       },
     );

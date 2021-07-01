@@ -16,6 +16,10 @@ const PROD_ENVIRONMENT = 'prod_environment';
 const DARK_THEME = 'DARK';
 const LIGHT_THEME = 'LIGHT';
 
+// Define Language
+const VIETNAMESE_LANG = 'vietnamese';
+const ENGLISH_LANG = 'english';
+
 const GraphQLAuthUrl = 'GraphQLAuthUrl';
 const GraphQLServiceUrl = 'GraphQLServiceUrl';
 const WebSocketGraphQLUrl = 'WebSocketGraphQLUrl';

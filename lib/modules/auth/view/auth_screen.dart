@@ -34,33 +34,36 @@ class AuthScreen extends GetView<AuthController> {
   Widget _buildItems(BuildContext context) {
     return Stack(
       children: [
-        Center(
-          child: ListView(
-            shrinkWrap: true,
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            children: [
-              Image.asset(
-                'assets/images/ic_logo_app.png',
-                width: SizeConfig().screenWidth * 0.26,
-                height: SizeConfig().screenWidth * 0.26,
-              ),
-              const SizedBox(height: 50),
-              GradientButton(
-                text: 'login'.tr.toUpperCase(),
-                onPressed: () {
-                  Get.toNamed(Routes.AUTH + Routes.LOGIN, arguments: controller);
-                },
-              ),
-              const SizedBox(height: 20),
-              BorderButton(
-                backgroundColor: Colors.white,
-                textColor: Colors.green,
-                text: 'register'.tr.toUpperCase(),
-                onPressed: () {
-                  Get.toNamed(Routes.AUTH + Routes.REGISTER, arguments: controller);
-                },
-              ),
-            ],
+        Padding(
+          padding: const EdgeInsets.only(bottom: 20),
+          child: Center(
+            child: ListView(
+              shrinkWrap: true,
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              children: [
+                Image.asset(
+                  'assets/images/ic_logo_app.png',
+                  width: SizeConfig().screenWidth * 0.26,
+                  height: SizeConfig().screenWidth * 0.26,
+                ),
+                const SizedBox(height: 50),
+                GradientButton(
+                  text: 'login'.tr.toUpperCase(),
+                  onPressed: () {
+                    Get.toNamed(Routes.AUTH + Routes.LOGIN, arguments: controller);
+                  },
+                ),
+                const SizedBox(height: 20),
+                BorderButton(
+                  backgroundColor: Colors.white,
+                  textColor: Colors.green,
+                  text: 'register'.tr.toUpperCase(),
+                  onPressed: () {
+                    Get.toNamed(Routes.AUTH + Routes.REGISTER, arguments: controller);
+                  },
+                ),
+              ],
+            ),
           ),
         ),
         Align(

@@ -1,4 +1,5 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:interview_getx/data/common/define_field.dart';
 
 Object handleErrorGraphQL(OperationException exception) {
   if (exception.linkException != null) {
@@ -6,7 +7,8 @@ Object handleErrorGraphQL(OperationException exception) {
     _handleStatusCodeServer(exception, statusCode);
     return statusCode;
   } else {
-    return exception.graphqlErrors.first.extensions!['code'];
+     _handleGraphQlErrorServer(exception, exception.graphqlErrors.first.extensions!['code']);
+     return exception.graphqlErrors.first.extensions!['code'];
   }
 }
 
@@ -32,6 +34,17 @@ void _handleStatusCodeServer(OperationException exception, int statusCode) {
       break;
     default:
       print('StatusCode $statusCode: $exception');
+      break;
+  }
+}
+
+void _handleGraphQlErrorServer(OperationException exception, String code) {
+  switch (code) {
+    case ACCESS_DENIED:
+      print('401 Expired token: $exception');
+      break;
+    default:
+      print('Error $code: $exception');
       break;
   }
 }

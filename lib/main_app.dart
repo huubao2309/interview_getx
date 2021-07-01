@@ -23,6 +23,8 @@ class App extends StatelessWidget {
       smartManagement: SmartManagement.keepFactory,
       title: APP_NAME,
       theme: ThemeConfig.lightTheme,
+      darkTheme: ThemeConfig.darkTheme,
+      themeMode: ThemeMode.light,
       locale: TranslationService.locale,
       fallbackLocale: TranslationService.fallbackLocale,
       translations: TranslationService(),
@@ -45,11 +47,11 @@ void configLoading() {
     ..loadingStyle = EasyLoadingStyle.custom
     ..indicatorSize = 45.0
     ..radius = 10.0
-    ..progressColor = Colors.yellow
-    ..backgroundColor = ColorConstants.lightGray
-    ..indicatorColor = hexToColor('#4CAF50')
-    ..textColor = hexToColor('#4CAF50')
-    ..maskColor = Colors.red
+    ..progressColor = !Get.isDarkMode ? AppColor.accentColorLight : AppColor.accentColorDark
+    ..backgroundColor = !Get.isDarkMode ? AppColor.primaryBackgroundColorLight : AppColor.primaryBackgroundColorDark
+    ..indicatorColor = !Get.isDarkMode ? AppColor.primaryColorLight : AppColor.primaryColorDark
+    ..textColor = !Get.isDarkMode ? AppColor.primaryColorLight : AppColor.primaryColorDark
+    ..maskColor = !Get.isDarkMode ? AppColor.errorColorLight : AppColor.errorColorDark
     ..userInteractions = false
     ..dismissOnTap = false
     ..animationStyle = EasyLoadingAnimationStyle.scale;

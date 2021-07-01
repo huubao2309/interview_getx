@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:interview_getx/modules/home/controller/home_controller.dart';
-import 'package:interview_getx/shared/dialog_manager/data_models/dialog_request.dart';
+import 'package:interview_getx/shared/dialog_manager/data_models/request/common_dialog_request.dart';
 import 'package:get/get.dart';
+import 'package:interview_getx/shared/dialog_manager/data_models/type_dialog.dart';
+import 'package:interview_getx/shared/styles/icon_style.dart';
+import 'package:interview_getx/shared/styles/text_style.dart';
 import 'package:interview_getx/shared/utils/common_widget.dart';
 
 class SettingTab extends GetView<HomeController> {
@@ -16,6 +19,9 @@ class SettingTab extends GetView<HomeController> {
           children: <Widget>[
             const SizedBox(height: 20),
             Obx(_buildInfoUserWidget),
+            const SizedBox(height: 20),
+            _buildThemeSettingWidget(),
+            _buildLanguageSettingWidget(),
             _buildLogoutSettingWidget(),
             _buildVersionWidget(),
           ],
@@ -26,10 +32,9 @@ class SettingTab extends GetView<HomeController> {
 
   Widget _buildInfoUserWidget() {
     return Container(
-      width: Get.size.width,
+      width: double.infinity,
       margin: const EdgeInsets.only(left: 12, right: 12, bottom: 5),
       child: Card(
-        color: Colors.white,
         elevation: 4,
         child: Container(
           margin: const EdgeInsets.only(left: 15, top: 10, right: 8, bottom: 10),
@@ -38,23 +43,19 @@ class SettingTab extends GetView<HomeController> {
               Container(
                 width: 30,
                 height: 30,
-                child: const CircleAvatar(
-                  backgroundColor: Colors.green,
+                child: CircleAvatar(
+                  backgroundColor: Get.theme.primaryColor,
                   child: Icon(
                     Icons.account_circle,
-                    color: Colors.white,
-                    size: 16,
+                    color: NormalIconStyle().iconTextColor,
+                    size: NormalIconStyle().size,
                   ),
                 ),
               ),
               const SizedBox(width: 12),
               Text(
                 controller.userApp.value ?? 'no_name'.tr,
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextAppStyle().bodyContentTextStyle(),
               ),
             ],
           ),
@@ -63,17 +64,15 @@ class SettingTab extends GetView<HomeController> {
     );
   }
 
-  Widget _buildLogoutSettingWidget() {
+  Widget _buildLanguageSettingWidget() {
     return Container(
-      width: Get.size.width,
-      margin: const EdgeInsets.only(left: 12, right: 12, bottom: 20),
+      width: double.infinity,
+      margin: const EdgeInsets.only(left: 12, right: 12, bottom: 10),
       child: GestureDetector(
         onTap: () async {
-          final dialogRequest = DialogRequest(title: 'alert'.tr, description: 'has_logout_message'.tr, defineEvent: 'logout');
-          await controller.doShowDialog(dialogRequest);
+          await controller.changeLanguage();
         },
         child: Card(
-          color: Colors.white,
           elevation: 4,
           child: Container(
             margin: const EdgeInsets.only(left: 15, top: 10, right: 8, bottom: 10),
@@ -82,27 +81,110 @@ class SettingTab extends GetView<HomeController> {
                 Container(
                   width: 30,
                   height: 30,
-                  child: const CircleAvatar(
-                    backgroundColor: Colors.green,
+                  child: CircleAvatar(
+                    backgroundColor: Get.theme.primaryColor,
+                    child: Icon(
+                      Icons.translate,
+                      color: NormalIconStyle().iconTextColor,
+                      size: NormalIconStyle().size,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  'translate'.tr,
+                  style: TextAppStyle().bodyContentTextStyle(),
+                ),
+                const Spacer(),
+                Icon(Icons.navigate_next, color: Get.theme.primaryColor),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildThemeSettingWidget() {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(left: 12, right: 12, bottom: 10),
+      child: GestureDetector(
+        onTap: () async {
+          controller.changeTheme();
+        },
+        child: Card(
+          elevation: 4,
+          child: Container(
+            margin: const EdgeInsets.only(left: 15, top: 10, right: 8, bottom: 10),
+            child: Row(
+              children: [
+                Container(
+                  width: 30,
+                  height: 30,
+                  child: CircleAvatar(
+                    backgroundColor: Get.theme.primaryColor,
+                    child: Icon(
+                      Icons.dark_mode,
+                      color: NormalIconStyle().iconTextColor,
+                      size: NormalIconStyle().size,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  'theme'.tr,
+                  style: TextAppStyle().bodyContentTextStyle(),
+                ),
+                const Spacer(),
+                Icon(Icons.navigate_next, color: Get.theme.primaryColor),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLogoutSettingWidget() {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(left: 12, right: 12, bottom: 20),
+      child: GestureDetector(
+        onTap: () async {
+          final dialogRequest = CommonDialogRequest(
+            title: 'alert'.tr,
+            description: 'has_logout_message'.tr,
+            defineEvent: 'logout',
+            typeDialog: DIALOG_TWO_BUTTON,
+          );
+          await controller.doShowDialog(dialogRequest);
+        },
+        child: Card(
+          child: Container(
+            margin: const EdgeInsets.only(left: 15, top: 10, right: 8, bottom: 10),
+            child: Row(
+              children: [
+                Container(
+                  width: 30,
+                  height: 30,
+                  child: CircleAvatar(
+                    backgroundColor: Get.theme.primaryColor,
                     radius: 66,
                     child: Icon(
                       Icons.power_settings_new,
-                      color: Colors.white,
-                      size: 16,
+                      color: NormalIconStyle().iconTextColor,
+                      size: NormalIconStyle().size,
                     ),
                   ),
                 ),
                 const SizedBox(width: 12),
                 Text(
                   'logout'.tr,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextAppStyle().bodyContentTextStyle(),
                 ),
                 const Spacer(),
-                const Icon(Icons.navigate_next, color: Colors.green),
+                Icon(Icons.navigate_next, color: Get.theme.primaryColor),
               ],
             ),
           ),
@@ -119,41 +201,25 @@ class SettingTab extends GetView<HomeController> {
           children: [
             Text(
               'version'.tr,
-              style: const TextStyle(
-                fontSize: 14,
-                color: Colors.grey,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextAppStyle().versionTextStyle(),
             ),
             const SizedBox(width: 5),
-            const Text(
+            Text(
               '1.0.0',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextAppStyle().versionTextStyle(),
             ),
           ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children: [
             Text(
               '© 2021 - Designed by ',
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.grey,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextAppStyle().prefixDesignTextStyle(),
             ),
             Text(
               'BaoNH',
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.green,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextAppStyle().suffixDesignTextStyle(),
             ),
           ],
         ),

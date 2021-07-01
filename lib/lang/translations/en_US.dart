@@ -43,6 +43,7 @@ const Map<String, String> en_US = {
   'dark': 'Dark',
   'light': 'Light',
   'error_login': 'Login is fail',
+  'translate': 'Change language',
   'translate_app': 'Change language of app',
   'alert': 'Alert',
   'loading': 'Loading',
@@ -51,4 +52,8 @@ const Map<String, String> en_US = {
   'expired_token': 'Login session has expired. Please log in again.',
   'id': 'Id',
   'title': 'Title',
+  'theme': 'Theme',
+  'chosen_language': 'Chosen Language',
+  'english': 'English',
+  'vietnamese': 'Vietnamese',
 };

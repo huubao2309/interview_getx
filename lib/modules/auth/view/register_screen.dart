@@ -10,6 +10,7 @@ import 'package:interview_getx/shared/widgets/text_input/input_field.dart';
 
 class RegisterScreen extends StatelessWidget {
   final AuthController controller = Get.arguments;
+  final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +25,13 @@ class RegisterScreen extends StatelessWidget {
             backIcon: Icons.arrow_back,
             color: Colors.white,
           ),
-          body: Container(
-            alignment: Alignment.center,
-            padding: const EdgeInsets.symmetric(horizontal: 35),
-            child: _buildForms(context),
+          body: Scrollbar(
+            controller: _scrollController,
+            child: Container(
+              alignment: Alignment.center,
+              padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 15),
+              child: _buildForms(context),
+            ),
           ),
         ),
       ],
@@ -38,6 +42,7 @@ class RegisterScreen extends StatelessWidget {
     return Form(
       key: controller.registerFormKey,
       child: SingleChildScrollView(
+        controller: _scrollController,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -102,7 +107,7 @@ class RegisterScreen extends StatelessWidget {
                 controller.registerTermsChecked = val!;
               },
             ),
-            CommonWidget.rowHeight(height: 80),
+            CommonWidget.rowHeight(height: 35),
             BorderButton(
               text: 'register'.tr.toUpperCase(),
               textColor: Colors.green,

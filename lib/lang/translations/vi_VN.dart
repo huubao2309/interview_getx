@@ -43,6 +43,7 @@ const Map<String, String> vi_VN = {
   'dark': 'Tối',
   'light': 'Sáng',
   'error_login': 'Đăng nhập thất bại',
+  'translate': 'Thay đổi ngôn ngữ',
   'translate_app': 'Thay đổi ngôn ngữ của ứng dụng',
   'alert': 'Cảnh báo',
   'loading': 'Đang tải',
@@ -51,4 +52,8 @@ const Map<String, String> vi_VN = {
   'expired_token': 'Đã hết phiên đăng nhập. Vui lòng đăng nhập lại.',
   'id': 'Id',
   'title': 'Tiêu đề',
+  'theme': 'Chủ đề',
+  'chosen_language': 'Chọn ngôn ngữ',
+  'english': 'Tiếng Anh',
+  'vietnamese': 'Tiếng Việt',
 };

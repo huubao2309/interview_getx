@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import '../../../shared/constants/colors.dart';
+import 'package:get/get.dart';
 
 class IconTitleItem extends StatelessWidget {
   const IconTitleItem({
@@ -32,38 +32,35 @@ class IconTitleItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin:
-          EdgeInsets.fromLTRB(marginLeft, marginTop, marginRight, marginBottom),
+      margin: EdgeInsets.fromLTRB(marginLeft, marginTop, marginRight, marginBottom),
       child: Material(
         borderRadius: BorderRadius.circular(11),
         color: backgroundColor,
         child: InkWell(
           onTap: onTap,
-          customBorder:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(11)),
+          customBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(11)),
           child: Padding(
-            padding: EdgeInsets.fromLTRB(
-                paddingLeft, paddingTop, paddingRight, padingBottom),
+            padding: EdgeInsets.fromLTRB(paddingLeft, paddingTop, paddingRight, padingBottom),
             child: Row(
               children: [
                 SvgPicture.asset(
                   icon,
                   width: 25,
                   height: 25,
-                  color: ColorConstants.secondaryAppColor,
+                  color: Get.theme.primaryColor,
                 ),
                 SizedBox(
                   width: drawablePadding,
                 ),
                 Expanded(
-                    child: Text(
-                  title,
-                  style:
-                      TextStyle(color: ColorConstants.darkGray, fontSize: 16),
-                )),
+                  child: Text(
+                    title,
+                    style: TextStyle(color: Get.theme.textTheme.headline6!.color, fontSize: 16),
+                  ),
+                ),
                 Icon(
                   Icons.chevron_right,
-                  color: ColorConstants.darkGray,
+                  color: Get.theme.primaryColor,
                 ),
               ],
             ),

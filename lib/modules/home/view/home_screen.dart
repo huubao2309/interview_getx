@@ -4,7 +4,6 @@ import 'package:interview_getx/modules/home/tabs/tabs.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:interview_getx/shared/constants/colors.dart';
 
 class HomeScreen extends GetView<HomeController> {
   @override
@@ -32,12 +31,13 @@ class HomeScreen extends GetView<HomeController> {
           )
         ],
         type: BottomNavigationBarType.fixed,
-        unselectedItemColor: ColorConstants.black,
+        unselectedItemColor: Get.theme.textTheme.headline6!.color,
+        selectedItemColor: Get.theme.textTheme.headline5!.color,
         currentIndex: controller.getCurrentIndex(controller.currentTab.value),
-        selectedItemColor: ColorConstants.black,
-        selectedLabelStyle: const TextStyle(
+        selectedLabelStyle: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.bold,
+          color: Get.theme.textTheme.headline5!.color,
         ),
         onTap: (index) => controller.switchTab(index),
       ),

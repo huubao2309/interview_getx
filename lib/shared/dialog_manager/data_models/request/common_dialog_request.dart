@@ -1,5 +1,5 @@
-class DialogRequest {
-  DialogRequest({
+class CommonDialogRequest {
+  CommonDialogRequest({
     required this.description,
     this.title,
     this.typeDialog,

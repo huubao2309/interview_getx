@@ -26,7 +26,7 @@ class LoginScreen extends StatelessWidget {
           ),
           body: Container(
             alignment: Alignment.center,
-            padding: const EdgeInsets.symmetric(horizontal: 35),
+            padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 15),
             child: _buildForms(context),
           ),
         ),
@@ -76,7 +76,7 @@ class LoginScreen extends StatelessWidget {
                 return null;
               },
             ),
-            CommonWidget.rowHeight(height: 80),
+            CommonWidget.rowHeight(height: 35),
             BorderButton(
               text: 'login'.tr.toUpperCase(),
               textColor: Colors.green,

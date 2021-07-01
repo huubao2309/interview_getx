@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:interview_getx/data/common/define_field.dart';
+import 'package:interview_getx/shared/constants/common.dart';
 import 'package:interview_getx/shared/dialog_manager/services/dialog_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../data/graphql/query/demo_query_graphql.dart';
@@ -12,7 +14,7 @@ import '../../../modules/home/tabs/setting_tab.dart';
 import '../../../modules/home/tabs/tabs.dart';
 import '../../../routes/app_pages.dart';
 import '../../../shared/constants/storage.dart';
-import '../../../shared/dialog_manager/data_models/dialog_request.dart';
+import '../../../shared/dialog_manager/data_models/request/common_dialog_request.dart';
 import '../../../shared/dialog_manager/data_models/type_dialog.dart';
 
 class HomeController extends GetxController {
@@ -22,7 +24,6 @@ class HomeController extends GetxController {
 
   var currentTab = MainTabs.home.obs;
   var userApp = Rxn<String>();
-  RxBool result = false.obs;
   var totalListItems = RxList<GetActiveTodos$Query$TodosSelectColumn>();
 
   final ScrollController scrollController = ScrollController();
@@ -34,13 +35,14 @@ class HomeController extends GetxController {
   final int stepLimitItem = 10;
   RxInt offsetItem = 0.obs;
 
+  RxBool isChangeTheme = false.obs;
+
   @override
   Future<void> onInit() async {
     super.onInit();
 
     mainTab = MainTab();
     await loadUsers();
-
     await loadListTodo(limit: 10, offset: 0);
 
     settingTab = SettingTab();
@@ -64,7 +66,7 @@ class HomeController extends GetxController {
             totalListItems.value = result;
           }
         } else {
-          final dialogRequest = DialogRequest(
+          final dialogRequest = CommonDialogRequest(
             title: 'error'.tr,
             description: 'unknown_error'.tr,
             typeDialog: DIALOG_ONE_BUTTON,
@@ -77,8 +79,8 @@ class HomeController extends GetxController {
       onError: (e) async {
         print(e);
         await EasyLoading.dismiss();
-        if (e == Unauthorized_Error_Code || e == ErrorExpiredTokenCode) {
-          final dialogRequest = DialogRequest(
+        if (e == Unauthorized_Error_Code || e == ErrorExpiredTokenCode || e == ACCESS_DENIED) {
+          final dialogRequest = CommonDialogRequest(
             title: 'error'.tr,
             description: 'expired_token'.tr,
             typeDialog: DIALOG_ONE_BUTTON,
@@ -86,7 +88,7 @@ class HomeController extends GetxController {
           );
           await doShowDialog(dialogRequest);
         } else {
-          final dialogRequest = DialogRequest(
+          final dialogRequest = CommonDialogRequest(
             title: 'error'.tr,
             description: 'unknown_error'.tr,
             typeDialog: DIALOG_ONE_BUTTON,
@@ -121,12 +123,12 @@ class HomeController extends GetxController {
     }
   }
 
-  Future<void> doShowDialog(DialogRequest dialogRequest) async {
+  Future<void> doShowDialog(CommonDialogRequest dialogRequest) async {
     final locator = Get.find<DialogService>();
     final dialogResult = await locator.showDialog(
       title: dialogRequest.title ?? 'info'.tr,
       description: dialogRequest.description,
-      typeDialog: dialogRequest.typeDialog ?? DIALOG_TWO_BUTTON,
+      typeDialog: dialogRequest.typeDialog ?? DIALOG_ONE_BUTTON,
     );
 
     if (dialogResult.confirmed) {
@@ -155,6 +157,33 @@ class HomeController extends GetxController {
   void switchTab(index) {
     final tab = _getCurrentTab(index);
     currentTab.value = tab;
+  }
+
+  void changeTheme() {
+    Get.changeThemeMode(Get.isDarkMode ? ThemeMode.light : ThemeMode.dark);
+  }
+
+  Future<void> changeLanguage() async {
+    final prefs = Get.find<SharedPreferences>();
+    final language = prefs.getString(StorageConstants.language);
+    final locator = Get.find<DialogService>();
+    final dialogResult = await locator.showLanguageDialog(
+      languages: const [VIETNAMESE_LANG, ENGLISH_LANG],
+    );
+
+    if (language != null && language == dialogResult.language) {
+      return;
+    }
+
+    if (dialogResult.language == VIETNAMESE_LANG) {
+      Get.updateLocale(const Locale('vi', 'VN'));
+    }
+
+    if (dialogResult.language == ENGLISH_LANG) {
+      Get.updateLocale(const Locale('en', 'US'));
+    }
+
+    await prefs.setString(StorageConstants.language, dialogResult.language);
   }
 
   int getCurrentIndex(MainTabs tab) {

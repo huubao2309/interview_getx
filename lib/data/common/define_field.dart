@@ -24,3 +24,5 @@ const TIME_OUT_SECOND = '30';
 const ErrorExpiredTokenCode = 'unauthorized';
 const Unauthorized_Error_Code = 401;
 const Unknown_Error = 'unknown_error';
+
+const ACCESS_DENIED = 'access-denied';
