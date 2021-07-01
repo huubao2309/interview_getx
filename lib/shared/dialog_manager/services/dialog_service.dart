@@ -12,20 +12,14 @@ class DialogService {
   late Function(LanguageDialogRequest) showLanguageDialogListener;
   late Completer<LanguageDialogResponse> _languageDialogCompleter;
 
-  Future<CommonDialogResponse> showDialog({
-    required String description,
-    String? title,
-    String? typeDialog,
-    String? titleButton,
-    bool isMustTapButton = false,
-  }) {
+  Future<CommonDialogResponse> showDialog(CommonDialogRequest request) {
     _commonDialogCompleter = Completer<CommonDialogResponse>();
     showCommonDialogListener(CommonDialogRequest(
-      title: title,
-      description: description,
-      typeDialog: typeDialog,
-      titleButton: titleButton,
-      isMustTapButton: isMustTapButton,
+      title: request.title,
+      description: request.description,
+      typeDialog: request.typeDialog,
+      titleButton: request.titleButton,
+      isMustTapButton: request.isMustTapButton,
     ));
     return _commonDialogCompleter.future;
   }

@@ -125,11 +125,7 @@ class HomeController extends GetxController {
 
   Future<void> doShowDialog(CommonDialogRequest dialogRequest) async {
     final locator = Get.find<DialogService>();
-    final dialogResult = await locator.showDialog(
-      title: dialogRequest.title ?? 'info'.tr,
-      description: dialogRequest.description,
-      typeDialog: dialogRequest.typeDialog ?? DIALOG_ONE_BUTTON,
-    );
+    final dialogResult = await locator.showDialog(dialogRequest);
 
     if (dialogResult.confirmed) {
       print('User press confirm');
