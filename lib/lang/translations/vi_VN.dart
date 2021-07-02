@@ -56,4 +56,6 @@ const Map<String, String> vi_VN = {
   'chosen_language': 'Chọn ngôn ngữ',
   'english': 'Tiếng Anh',
   'vietnamese': 'Tiếng Việt',
+  'network_error': 'Lội mạng',
+  'network_error_message': 'Không thể kết mối mạng.'
 };

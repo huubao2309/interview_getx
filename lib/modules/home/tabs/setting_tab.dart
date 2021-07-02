@@ -152,13 +152,7 @@ class SettingTab extends GetView<HomeController> {
       margin: const EdgeInsets.only(left: 12, right: 12, bottom: 20),
       child: GestureDetector(
         onTap: () async {
-          final dialogRequest = CommonDialogRequest(
-            title: 'alert'.tr,
-            description: 'has_logout_message'.tr,
-            defineEvent: 'logout',
-            typeDialog: DIALOG_TWO_BUTTON,
-          );
-          await controller.doShowDialog(dialogRequest);
+          await controller.confirmLogout();
         },
         child: Card(
           child: Container(

@@ -56,4 +56,6 @@ const Map<String, String> en_US = {
   'chosen_language': 'Chosen Language',
   'english': 'English',
   'vietnamese': 'Vietnamese',
+  'network_error': 'Network Error',
+  'network_error_message': 'Fail to connect network.'
 };

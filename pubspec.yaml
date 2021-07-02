@@ -33,6 +33,7 @@ dependencies:
   fluttertoast: ^8.0.3
   flutter_easyloading: ^3.0.0
   flutter_svg: ^0.21.0+1
+  connectivity: ^3.0.6
 
   # GraphQL
   graphql_flutter: ^5.0.0-nullsafety.5

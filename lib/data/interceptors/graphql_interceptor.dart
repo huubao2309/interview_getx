@@ -1,11 +1,18 @@
+import 'dart:io';
+
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:interview_getx/data/common/define_field.dart';
 
 Object handleErrorGraphQL(OperationException exception) {
   if (exception.linkException != null) {
+    if(exception.linkException is ServerException){
+      final message = exception.linkException!.originalException as SocketException;
+      return message.osError!.message;
+    }
     final statusCode = (exception.linkException as HttpLinkParserException).response.statusCode;
     _handleStatusCodeServer(exception, statusCode);
     return statusCode;
+
   } else {
      _handleGraphQlErrorServer(exception, exception.graphqlErrors.first.extensions!['code']);
      return exception.graphqlErrors.first.extensions!['code'];

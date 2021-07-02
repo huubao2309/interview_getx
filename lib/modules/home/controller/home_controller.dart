@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:interview_getx/data/common/define_field.dart';
+import 'package:interview_getx/data/interceptors/listen_error_graphql_interceptor.dart';
+import 'package:interview_getx/modules/home/constants/constant.dart';
 import 'package:interview_getx/shared/constants/common.dart';
 import 'package:interview_getx/shared/dialog_manager/services/dialog_service.dart';
+import 'package:interview_getx/shared/network/constants/constants.dart';
+import 'package:interview_getx/shared/network/managers/network_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../data/graphql/query/demo_query_graphql.dart';
 import '../../../data/repository/api_repository.dart';
@@ -17,7 +21,7 @@ import '../../../shared/constants/storage.dart';
 import '../../../shared/dialog_manager/data_models/request/common_dialog_request.dart';
 import '../../../shared/dialog_manager/data_models/type_dialog.dart';
 
-class HomeController extends GetxController {
+class HomeController extends GetxController with NetworkManager, ListenErrorGraphQL {
   HomeController({required this.apiRepository});
 
   final ApiRepository apiRepository;
@@ -48,6 +52,20 @@ class HomeController extends GetxController {
     settingTab = SettingTab();
   }
 
+  Future<void> checkConnectNetwork() async {
+    print('Home page check met work');
+    if (!await hasConnectNetwork()) {
+      final dialogRequest = CommonDialogRequest(
+        title: 'network_error'.tr,
+        description: 'network_error_message'.tr,
+        defineEvent: NO_CONNECT_NETWORK,
+      );
+      await _doShowDialog(dialogRequest);
+    } else {
+      await loadListTodo(limit: 10, offset: 0);
+    }
+  }
+
   Future<void> loadUsers() async {
     final prefs = Get.find<SharedPreferences>();
     final user = prefs.get(StorageConstants.userId) ?? 'no_name'.tr;
@@ -72,36 +90,31 @@ class HomeController extends GetxController {
             typeDialog: DIALOG_ONE_BUTTON,
             defineEvent: 'unknown_error',
           );
-          await doShowDialog(dialogRequest);
+          await _doShowDialog(dialogRequest);
         }
         await EasyLoading.dismiss();
       },
       onError: (e) async {
         print(e);
         await EasyLoading.dismiss();
-        if (e == Unauthorized_Error_Code || e == ErrorExpiredTokenCode || e == ACCESS_DENIED) {
-          final dialogRequest = CommonDialogRequest(
-            title: 'error'.tr,
-            description: 'expired_token'.tr,
-            typeDialog: DIALOG_ONE_BUTTON,
-            defineEvent: ErrorExpiredTokenCode,
-          );
-          await doShowDialog(dialogRequest);
-        } else {
-          final dialogRequest = CommonDialogRequest(
-            title: 'error'.tr,
-            description: 'unknown_error'.tr,
-            typeDialog: DIALOG_ONE_BUTTON,
-            defineEvent: Unknown_Error,
-          );
-          await doShowDialog(dialogRequest);
-        }
+        await _doShowDialog(handleErrorGraphQLResponse(e));
       },
     );
   }
 
-  void logOut() {
-    Get.find<SharedPreferences>().clear();
+  Future<void> confirmLogout() async {
+    // Show dialog
+    final dialogRequest = CommonDialogRequest(
+      title: 'alert'.tr,
+      description: 'has_logout_message'.tr,
+      defineEvent: LOGOUT_EVENT,
+      typeDialog: DIALOG_TWO_BUTTON,
+    );
+    await _doShowDialog(dialogRequest);
+  }
+
+  Future<void> logOut() async {
+    await Get.find<SharedPreferences>().clear();
 
     try {
       final authController = Get.find<AuthController>();
@@ -110,20 +123,18 @@ class HomeController extends GetxController {
         authController.loginPasswordController.value = TextEditingValue.empty;
         Get.back();
       } else {
-        Get
-          ..lazyPut(() => AuthController(apiRepository: apiRepository))
-          ..offAllNamed(Routes.AUTH);
+        Get.lazyPut(() => AuthController(apiRepository: apiRepository));
+        await Get.offAllNamed(Routes.AUTH);
       }
     } catch (e) {
-      Get
-        ..lazyPut(() => AuthController(apiRepository: apiRepository))
-        ..toNamed(Routes.AUTH);
+      Get.lazyPut(() => AuthController(apiRepository: apiRepository));
+      await Get.toNamed(Routes.AUTH);
     } finally {
       currentTab.value = MainTabs.home;
     }
   }
 
-  Future<void> doShowDialog(CommonDialogRequest dialogRequest) async {
+  Future<void> _doShowDialog(CommonDialogRequest dialogRequest) async {
     final locator = Get.find<DialogService>();
     final dialogResult = await locator.showDialog(dialogRequest);
 
@@ -137,12 +148,15 @@ class HomeController extends GetxController {
 
   void handleEventDialog(String? defineEvent) {
     switch (defineEvent) {
+      case NO_CONNECT_NETWORK:
+        checkConnectNetwork();
+        break;
       case ErrorExpiredTokenCode:
         logOut();
         break;
       case Unknown_Error:
         break;
-      case 'logout':
+      case LOGOUT_EVENT:
         logOut();
         break;
       default:

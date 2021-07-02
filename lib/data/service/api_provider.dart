@@ -22,13 +22,14 @@ class ApiProvider extends BaseProvider {
     return BaseGraphQLProvider.instance.value
         .query(
       graphql.QueryOptions(
-          document: GetActiveTodosQuery(
-            variables: GetActiveTodosArguments(),
-          ).document,
-          variables: {
-            LIMIT_FIELD: limit,
-            OFFSET_FIELD: offset,
-          }),
+        document: GetActiveTodosQuery(
+          variables: GetActiveTodosArguments(),
+        ).document,
+        variables: {
+          LIMIT_FIELD: limit,
+          OFFSET_FIELD: offset,
+        },
+      ),
     )
         .timeout(Duration(seconds: int.parse(TIME_OUT_SECOND)), onTimeout: () {
       throw createError('Timeout Error');
