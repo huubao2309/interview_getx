@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:interview_getx/shared/dialog_manager/data_models/request/common_dialog_request.dart';
 import 'package:interview_getx/shared/dialog_manager/services/dialog_service.dart';
@@ -65,7 +66,13 @@ class AuthController extends GetxController with NetworkManager {
         ),
       );
 
-      if (res!.id!.isNotEmpty) {
+      if (res == null) {
+        await EasyLoading.dismiss();
+        await checkConnectNetwork();
+        return;
+      }
+
+      if (res.id!.isNotEmpty) {
         // Set Text for Login
         loginUserNameController.text = res.id!;
         loginPasswordController.text = registerPasswordController.text;
@@ -90,8 +97,14 @@ class AuthController extends GetxController with NetworkManager {
         ),
       );
 
+      if (res == null) {
+        await EasyLoading.dismiss();
+        await checkConnectNetwork();
+        return;
+      }
+
       final prefs = Get.find<SharedPreferences>();
-      if (res!.token.isNotEmpty) {
+      if (res.token.isNotEmpty) {
         await prefs.setString(StorageConstants.token, res.token);
         await prefs.setString(StorageConstants.userId, loginUserNameController.text);
         await Get.offAndToNamed(Routes.HOME);

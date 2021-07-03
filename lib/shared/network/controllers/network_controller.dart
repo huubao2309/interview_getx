@@ -6,14 +6,14 @@ import 'package:get/get.dart';
 import 'package:interview_getx/shared/network/constants/constants.dart';
 
 class NetworkController extends GetxController {
-  var connectionStatus = 0.obs;
+  var connectionStatus = INSTANCE_NETWORK.obs;
   final Connectivity _connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
   @override
-  void onInit() {
+  Future<void> onInit() async {
     super.onInit();
-    initConnectivity();
+    await initConnectivity();
     _connectivitySubscription = _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
   }
 
