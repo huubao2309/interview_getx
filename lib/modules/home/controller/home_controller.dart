@@ -67,8 +67,8 @@ class HomeController extends GetxController with NetworkManager, ListenErrorGrap
   }
 
   Future<void> loadUsers() async {
-    final prefs = Get.find<SharedPreferences>();
-    final user = prefs.get(StorageConstants.userId) ?? 'no_name'.tr;
+    final storage = Get.find<SharedPreferences>();
+    final user = storage.get(StorageConstants.userId) ?? 'no_name'.tr;
     userApp.value = user.toString();
   }
 
@@ -170,6 +170,7 @@ class HomeController extends GetxController with NetworkManager, ListenErrorGrap
   }
 
   void changeTheme() {
+    Get.find<SharedPreferences>().setString(StorageConstants.theme, Get.isDarkMode ? LIGHT_THEME: DARK_THEME);
     Get.changeThemeMode(Get.isDarkMode ? ThemeMode.light : ThemeMode.dark);
   }
 
@@ -179,6 +180,7 @@ class HomeController extends GetxController with NetworkManager, ListenErrorGrap
     final locator = Get.find<DialogService>();
     final dialogResult = await locator.showLanguageDialog(
       languages: const [VIETNAMESE_LANG, ENGLISH_LANG],
+      isMustTapButton: true,
     );
 
     if (language != null && language == dialogResult.language) {

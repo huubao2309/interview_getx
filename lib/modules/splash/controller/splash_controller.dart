@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:interview_getx/routes/app_pages.dart';
 import 'package:interview_getx/shared/constants/common.dart';
 import 'package:interview_getx/shared/constants/storage.dart';
@@ -13,6 +14,7 @@ class SplashController extends GetxController {
     await Future.delayed(const Duration(milliseconds: 2000));
     final storage = Get.find<SharedPreferences>();
     loadLanguage(storage);
+    loadTheme(storage);
     try {
       if (storage.getString(StorageConstants.token) != null) {
         await Get.offAndToNamed(Routes.HOME);
@@ -36,5 +38,17 @@ class SplashController extends GetxController {
     }
 
     Get.updateLocale(const Locale('en', 'US'));
+  }
+
+  void loadTheme(SharedPreferences storage) {
+    final theme = storage.getString(StorageConstants.theme);
+    if (theme == null || theme == LIGHT_THEME) {
+      Get.changeThemeMode(ThemeMode.light);
+      storage.setString(StorageConstants.theme, LIGHT_THEME);
+      return;
+    }
+
+    Get.changeThemeMode(ThemeMode.dark);
+    storage.setString(StorageConstants.theme, DARK_THEME);
   }
 }

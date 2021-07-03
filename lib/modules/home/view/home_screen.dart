@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:interview_getx/modules/home/controller/home_controller.dart';
 import 'package:interview_getx/modules/home/tabs/tabs.dart';
 
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class HomeScreen extends GetView<HomeController> {
@@ -23,16 +22,38 @@ class HomeScreen extends GetView<HomeController> {
         items: [
           _buildNavigationBarItem(
             'home'.tr,
-            MainTabs.home == controller.currentTab.value ? 'icon_home_activited.svg' : 'icon_home.svg',
+            MainTabs.home == controller.currentTab.value
+                ? const Icon(
+                    Icons.home,
+                    size: 16,
+                  )
+                : const Icon(
+                    Icons.home,
+                    size: 14,
+                  ),
           ),
           _buildNavigationBarItem(
             'setting'.tr,
-            MainTabs.setting == controller.currentTab.value ? 'icon_setting_activited.svg' : 'icon_setting.svg',
+            MainTabs.setting == controller.currentTab.value
+                ? const Icon(
+                    Icons.settings,
+                    size: 16,
+                  )
+                : const Icon(
+                    Icons.settings,
+                    size: 14,
+                  ),
           )
         ],
         type: BottomNavigationBarType.fixed,
-        unselectedItemColor: Get.theme.textTheme.headline6!.color,
         selectedItemColor: Get.theme.textTheme.headline5!.color,
+        unselectedItemColor: Get.theme.textTheme.headline6!.color,
+        selectedIconTheme: IconThemeData(
+          color: Get.theme.textTheme.headline5!.color,
+        ),
+        unselectedIconTheme: IconThemeData(
+          color: Get.theme.textTheme.headline6!.color,
+        ),
         currentIndex: controller.getCurrentIndex(controller.currentTab.value),
         selectedLabelStyle: TextStyle(
           fontSize: 14,
@@ -55,9 +76,9 @@ class HomeScreen extends GetView<HomeController> {
     }
   }
 
-  BottomNavigationBarItem _buildNavigationBarItem(String label, String svg) {
+  BottomNavigationBarItem _buildNavigationBarItem(String label, Widget icon) {
     return BottomNavigationBarItem(
-      icon: SvgPicture.asset('assets/svgs/$svg'),
+      icon: icon,
       label: label,
     );
   }

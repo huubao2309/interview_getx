@@ -23,7 +23,7 @@ class AppColor {
   /// Dark Color
   static Color defaultHeaderOSColorDark = const Color(0xFF087f23); // dark green
   static Color primaryColorDark = const Color(0xFF4CAF50); // green
-  static Color accentColorDark = const Color(0xFF00FFDA); // blue accent
+  static Color accentColorDark = const Color(0xFFFFD600); // yellow
   static Color dividerColorDark = const Color(0xFFF1F1F1); // grey
   static Color primaryTextColorDark = const Color(0xFFFFFFFF); // white
   static Color secondTextColorDark = const Color(0xFF000000); // black

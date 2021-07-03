@@ -1,12 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:interview_getx/modules/home/controller/home_controller.dart';
-import 'package:interview_getx/shared/dialog_manager/data_models/request/common_dialog_request.dart';
 import 'package:get/get.dart';
-import 'package:interview_getx/shared/dialog_manager/data_models/type_dialog.dart';
 import 'package:interview_getx/shared/styles/icon_style.dart';
 import 'package:interview_getx/shared/styles/text_style.dart';
 import 'package:interview_getx/shared/utils/common_widget.dart';
+import 'package:interview_getx/shared/widgets/switch_widget/switch_widget.dart';
 
 class SettingTab extends GetView<HomeController> {
   @override
@@ -20,7 +19,7 @@ class SettingTab extends GetView<HomeController> {
             const SizedBox(height: 20),
             Obx(_buildInfoUserWidget),
             const SizedBox(height: 20),
-            _buildThemeSettingWidget(),
+            _buildThemeSettingWidget(context),
             _buildLanguageSettingWidget(),
             _buildLogoutSettingWidget(),
             _buildVersionWidget(),
@@ -105,41 +104,42 @@ class SettingTab extends GetView<HomeController> {
     );
   }
 
-  Widget _buildThemeSettingWidget() {
+  Widget _buildThemeSettingWidget(BuildContext context) {
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.only(left: 12, right: 12, bottom: 10),
-      child: GestureDetector(
-        onTap: () async {
-          controller.changeTheme();
-        },
-        child: Card(
-          elevation: 4,
-          child: Container(
-            margin: const EdgeInsets.only(left: 15, top: 10, right: 8, bottom: 10),
-            child: Row(
-              children: [
-                Container(
-                  width: 30,
-                  height: 30,
-                  child: CircleAvatar(
-                    backgroundColor: Get.theme.primaryColor,
-                    child: Icon(
-                      Icons.dark_mode,
-                      color: NormalIconStyle().iconTextColor,
-                      size: NormalIconStyle().size,
-                    ),
+      child: Card(
+        elevation: 4,
+        child: Container(
+          padding: const EdgeInsets.only(left: 15, top: 1, bottom: 1),
+          child: Row(
+            children: [
+              Container(
+                width: 30,
+                height: 30,
+                child: CircleAvatar(
+                  backgroundColor: context.theme.primaryColor,
+                  child: Icon(
+                    Get.isDarkMode ? Icons.dark_mode : Icons.light_mode,
+                    color: NormalIconStyle().iconTextColor,
+                    size: NormalIconStyle().size,
                   ),
                 ),
-                const SizedBox(width: 12),
-                Text(
-                  'theme'.tr,
-                  style: TextAppStyle().bodyContentTextStyle(),
-                ),
-                const Spacer(),
-                Icon(Icons.navigate_next, color: Get.theme.primaryColor),
-              ],
-            ),
+              ),
+              const SizedBox(width: 12),
+              Text(
+                'theme'.tr,
+                style: TextAppStyle().bodyContentTextStyle(),
+              ),
+              const Spacer(),
+              // Icon(Icons.navigate_next, color: context.theme.primaryColor),
+              SwitchWidget(
+                value: Get.isDarkMode,
+                onChanged: (value) {
+                  controller.changeTheme();
+                },
+              ),
+            ],
           ),
         ),
       ),
