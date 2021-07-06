@@ -2,13 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:interview_getx/data/base/base_controller.dart';
 import 'package:interview_getx/data/common/define_field.dart';
-import 'package:interview_getx/data/interceptors/listen_error_graphql_interceptor.dart';
 import 'package:interview_getx/modules/home/constants/constant.dart';
 import 'package:interview_getx/shared/constants/common.dart';
 import 'package:interview_getx/shared/dialog_manager/services/dialog_service.dart';
 import 'package:interview_getx/shared/network/constants/constants.dart';
-import 'package:interview_getx/shared/network/managers/network_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../data/graphql/query/demo_query_graphql.dart';
 import '../../../data/repository/api_repository.dart';
@@ -21,7 +20,7 @@ import '../../../shared/constants/storage.dart';
 import '../../../shared/dialog_manager/data_models/request/common_dialog_request.dart';
 import '../../../shared/dialog_manager/data_models/type_dialog.dart';
 
-class HomeController extends GetxController with NetworkManager, ListenErrorGraphQL {
+class HomeController extends BaseController {
   HomeController({required this.apiRepository});
 
   final ApiRepository apiRepository;
@@ -43,27 +42,22 @@ class HomeController extends GetxController with NetworkManager, ListenErrorGrap
 
   @override
   Future<void> onInit() async {
-    super.onInit();
-
     mainTab = MainTab();
-    await loadUsers();
-    await loadListTodo(limit: 10, offset: 0);
-
     settingTab = SettingTab();
+    await super.onInit();
   }
 
-  Future<void> checkConnectNetwork() async {
-    print('Home page check met work');
-    if (!await hasConnectNetwork()) {
-      final dialogRequest = CommonDialogRequest(
-        title: 'network_error'.tr,
-        description: 'network_error_message'.tr,
-        defineEvent: NO_CONNECT_NETWORK,
-      );
-      await _doShowDialog(dialogRequest);
-    } else {
-      await loadListTodo(limit: 10, offset: 0);
-    }
+  @override
+  Future<void> onReady() async {
+    await super.onReady();
+    await loadUsers();
+    hasNetworkStream.listen((value) async {
+      print('Value network: $value');
+      if (value) {
+        await loadListTodo(limit: 10, offset: 0);
+        return;
+      }
+    });
   }
 
   Future<void> loadUsers() async {
@@ -97,7 +91,7 @@ class HomeController extends GetxController with NetworkManager, ListenErrorGrap
       onError: (e) async {
         print(e);
         await EasyLoading.dismiss();
-        await _doShowDialog(handleErrorGraphQLResponse(e));
+        await _doShowDialog(handleErrorResponse(e));
       },
     );
   }
@@ -170,7 +164,7 @@ class HomeController extends GetxController with NetworkManager, ListenErrorGrap
   }
 
   void changeTheme() {
-    Get.find<SharedPreferences>().setString(StorageConstants.theme, Get.isDarkMode ? LIGHT_THEME: DARK_THEME);
+    Get.find<SharedPreferences>().setString(StorageConstants.theme, Get.isDarkMode ? LIGHT_THEME : DARK_THEME);
     Get.changeThemeMode(Get.isDarkMode ? ThemeMode.light : ThemeMode.dark);
   }
 
