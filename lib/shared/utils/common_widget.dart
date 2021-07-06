@@ -3,9 +3,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 class CommonWidget {
-  static AppBar appBar(BuildContext context, String title, {void Function()? callback, IconData? backIcon, Color? color}) {
+  static AppBar appBar(BuildContext context, String title, {void Function()? callback, IconData? backIcon, Color? color, bool? automaticallyImplyLeading}) {
     return AppBar(
-      automaticallyImplyLeading: false,
+      automaticallyImplyLeading: automaticallyImplyLeading ?? false,
       leading: backIcon == null
           ? null
           : IconButton(

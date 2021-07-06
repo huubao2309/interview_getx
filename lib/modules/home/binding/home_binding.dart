@@ -1,13 +1,12 @@
 import 'package:get/get.dart';
-import 'package:interview_getx/shared/network/controllers/network_controller.dart';
+import 'package:interview_getx/data/base/base_binding.dart';
 
 import '../controller/home_controller.dart';
 
-class HomeBinding implements Bindings {
+class HomeBinding extends BaseBinding {
   @override
   void dependencies() {
-    Get
-      ..lazyPut<HomeController>(() => HomeController(apiRepository: Get.find()))
-      ..lazyPut<NetworkController>(() => NetworkController());
+    super.dependencies();
+    Get.lazyPut<HomeController>(() => HomeController(apiRepository: Get.find()));
   }
 }

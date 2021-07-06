@@ -17,6 +17,7 @@ class SplashController extends GetxController {
     loadTheme(storage);
     try {
       if (storage.getString(StorageConstants.token) != null) {
+        print('Token: ${storage.getString(StorageConstants.token)}');
         await Get.offAndToNamed(Routes.HOME);
       } else {
         await Get.offAndToNamed(Routes.AUTH);

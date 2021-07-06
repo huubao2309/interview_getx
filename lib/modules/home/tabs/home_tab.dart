@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:interview_getx/routes/app_pages.dart';
 import 'package:interview_getx/shared/styles/text_style.dart';
 import '../../../data/graphql/query/demo_query_graphql.dart';
 import '../../../modules/home/controller/home_controller.dart';
@@ -63,47 +64,52 @@ class MainTab extends GetView<HomeController> {
   }
 
   Widget _detailOrderTransaction(GetActiveTodos$Query$TodosSelectColumn item, int index) {
-    return Card(
-      child: Container(
-        height: 80,
-        width: Get.width,
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Row(
-                children: [
-                  Text(
-                    '${'id'.tr}: ',
-                    style: TextAppStyle().bodyTitleTextStyle(),
-                  ),
-                  const SizedBox(width: 5),
-                  Text(
-                    item.id.toString(),
-                    style: TextAppStyle().bodyContentTextStyle(),
-                  ),
-                ],
+    return GestureDetector(
+      onTap: () {
+        Get.toNamed(Routes.HOME + Routes.DETAIL_TODO, arguments: item);
+      },
+      child: Card(
+        child: Container(
+          height: 80,
+          width: Get.width,
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Row(
+                  children: [
+                    Text(
+                      '${'id'.tr}: ',
+                      style: TextAppStyle().bodyTitleTextStyle(),
+                    ),
+                    const SizedBox(width: 5),
+                    Text(
+                      item.id.toString(),
+                      style: TextAppStyle().bodyContentTextStyle(),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(height: 10),
-            Expanded(
-              child: Row(
-                children: [
-                  Text(
-                    '${'title'.tr}: ',
-                    style: TextAppStyle().bodyTitleTextStyle(),
-                  ),
-                  const SizedBox(width: 5),
-                  Text(
-                    item.title,
-                    style: TextAppStyle().bodyContentTextStyle(),
-                  ),
-                ],
+              const SizedBox(height: 10),
+              Expanded(
+                child: Row(
+                  children: [
+                    Text(
+                      '${'title'.tr}: ',
+                      style: TextAppStyle().bodyTitleTextStyle(),
+                    ),
+                    const SizedBox(width: 5),
+                    Text(
+                      item.title,
+                      style: TextAppStyle().bodyContentTextStyle(),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

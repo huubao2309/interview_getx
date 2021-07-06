@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:interview_getx/modules/detail_todo/view/detail_todo_screen.dart';
 import 'package:interview_getx/modules/home/view/home_screen.dart';
 import '../modules/auth/binding/auth_binding.dart';
 import '../modules/auth/view/auth_screen.dart';
@@ -31,9 +32,8 @@ final routePages = [
     name: Routes.HOME,
     page: () => HomeScreen(),
     binding: HomeBinding(),
-    children: const [
-      // TODO:
-      // GetPage(name: Routes.CARDS, page: () => CardsScreen()),
+    children: [
+      GetPage(name: Routes.DETAIL_TODO, page: () => DetailTodoScreen()),
     ],
   ),
 ];
