@@ -12,7 +12,7 @@ const Map<String, String> en_US = {
   'enter_password': 'Enter Password',
   'password_required': 'Password is required.',
   'password_required_length': 'Password should be 6~15 characters',
-  'confirm_password':  'Confirm Password',
+  'confirm_password': 'Confirm Password',
   'confirm_password_consistence': 'Confirm Password is not consistence with Password.',
   'confirm_password_required': 'Confirm Password is required.',
   'conditions_policy': 'I have read and agreed to the Terms & Conditions and Private Policy of App.',
@@ -57,5 +57,7 @@ const Map<String, String> en_US = {
   'english': 'English',
   'vietnamese': 'Vietnamese',
   'network_error': 'Network Error',
-  'network_error_message': 'Fail to connect network.'
+  'network_error_message': 'Fail to connect network.',
+  'user': 'User',
+  'created_date': 'Created Date',
 };

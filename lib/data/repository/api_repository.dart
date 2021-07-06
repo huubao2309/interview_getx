@@ -27,12 +27,12 @@ class ApiRepository {
     }
   }
 
-  Future<List<GetActiveTodos$Query$TodosSelectColumn>> getList({required int limit, required int offset}) async {
-    final c = Completer<List<GetActiveTodos$Query$TodosSelectColumn>>();
+  Future<List<GetActiveTodos$QueryRoot$Todos>> getList({required int limit, required int offset}) async {
+    final c = Completer<List<GetActiveTodos$QueryRoot$Todos>>();
     try {
       final results = await apiProvider.getListTodo(limit: limit, offset: offset);
       if (!results.hasException) {
-        final listTodo = GetActiveTodos$Query.fromJson(results.data!).todos;
+        final listTodo = GetActiveTodos$QueryRoot.fromJson(results.data!).todos;
         c.complete(listTodo);
       } else {
         print('Exception: ${results.exception}');

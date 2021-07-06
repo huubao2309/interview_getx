@@ -1,7 +1,11 @@
 query getActiveTodos($limit: Int, $offset: Int) {
-    todos(limit: $limit, offset: $offset) {
+    todos(limit: $limit, offset: $offset, order_by: {created_at: desc}) {
         is_completed
         title
         id
+        created_at
+        user {
+            name
+        }
     }
 }

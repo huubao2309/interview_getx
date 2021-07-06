@@ -63,10 +63,10 @@ class MainTab extends GetView<HomeController> {
     );
   }
 
-  Widget _detailOrderTransaction(GetActiveTodos$Query$TodosSelectColumn item, int index) {
+  Widget _detailOrderTransaction(GetActiveTodos$QueryRoot$Todos item, int index) {
     return GestureDetector(
       onTap: () {
-        Get.toNamed(Routes.HOME + Routes.DETAIL_TODO, arguments: item);
+        Get.toNamed(Routes.HOME + Routes.DETAIL_TODO, arguments: [controller, item]);
       },
       child: Card(
         child: Container(

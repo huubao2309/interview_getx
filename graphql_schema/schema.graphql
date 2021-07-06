@@ -1,155 +1,450 @@
-# This file was generated based on ".graphqlconfig". Do not edit manually.
-
 schema {
-    query: Query
-    mutation: Mutation
-    subscription: Subscription
+    query: query_root
+    mutation: mutation_root
+    subscription: subscription_root
 }
 
-type todos {
-    created_at: String!
-    id: Int!
-    is_completed: Boolean!
-    is_public: Boolean!
-    title: String!
-    user: [users!]
-    user_id: String!
+# expression to compare columns of type Boolean. All fields are combined with logical 'AND'.
+input Boolean_comparison_exp {
+    _eq: Boolean
+    _gt: Boolean
+    _gte: Boolean
+    _in: [Boolean!]
+    _is_null: Boolean
+    _lt: Boolean
+    _lte: Boolean
+    _neq: Boolean
+    _nin: [Boolean!]
 }
 
-type todos_select_column {
-    created_at: String!
-    id: Int
-    is_completed: Boolean
-    is_public: Boolean
-    title: String!
-    user_id: Int!
+# expression to compare columns of type Int. All fields are combined with logical 'AND'.
+input Int_comparison_exp {
+    _eq: Int
+    _gt: Int
+    _gte: Int
+    _in: [Int!]
+    _is_null: Boolean
+    _lt: Int
+    _lte: Int
+    _neq: Int
+    _nin: [Int!]
 }
 
-type todos_bool_exp {
-    _and: [todos_bool_exp]
-    _not: todos_bool_exp
-    _or: [todos_bool_exp]
-    created_at: String!
-    id: Int
-    is_completed: Boolean
-    is_public: Boolean
-    title: String!
-    user: users_bool_exp
-    user_id: Int!
+# mutation root
+type mutation_root {
+    # delete data from the table: "todos"
+    delete_todos(
+        # filter the rows which have to be deleted
+        where: todos_bool_exp!
+    ): todos_mutation_response
+    # delete single row from the table: "todos"
+    delete_todos_by_pk(id: Int!): todos
+    # insert data into the table: "todos"
+    insert_todos(
+        # the rows to be inserted
+        objects: [todos_insert_input!]!
+        # on conflict condition
+        on_conflict: todos_on_conflict
+    ): todos_mutation_response
+    # insert a single row into the table: "todos"
+    insert_todos_one(
+        # the row to be inserted
+        object: todos_insert_input!
+        # on conflict condition
+        on_conflict: todos_on_conflict
+    ): todos
+    # update data of the table: "todos"
+    update_todos(
+        # sets the columns of the filtered rows to the given values
+        _set: todos_set_input
+        # filter the rows which have to be updated
+        where: todos_bool_exp!
+    ): todos_mutation_response
+    # update single row of the table: "todos"
+    update_todos_by_pk(
+        # sets the columns of the filtered rows to the given values
+        _set: todos_set_input
+        pk_columns: todos_pk_columns_input!
+    ): todos
+    # update data of the table: "users"
+    update_users(
+        # sets the columns of the filtered rows to the given values
+        _set: users_set_input
+        # filter the rows which have to be updated
+        where: users_bool_exp!
+    ): users_mutation_response
+    # update single row of the table: "users"
+    update_users_by_pk(
+        # sets the columns of the filtered rows to the given values
+        _set: users_set_input
+        pk_columns: users_pk_columns_input!
+    ): users
 }
 
-type users_bool_exp {
-    _and: [users_bool_exp]
-    _not: users_bool_exp
-    _or: [users_bool_exp]
+# columns and relationships of "online_users"
+type online_users {
     id: String
-    name: String
-    todos: todos_bool_exp
+    last_seen: timestamptz
+    # An object relationship
+    user: users
 }
 
-type users{
-    id: String!
-    name: String!
-    todos(
-        distinct_on: [users_select_column!]
-        limit: Int
-        offset: Int
-        order_by: [todos_order_by!]
-        #        where: users_bool_exp
-    ): [todos!]!
+# Boolean expression to filter rows from the table "online_users". All fields are combined with a logical 'AND'.
+input online_users_bool_exp {
+    _and: [online_users_bool_exp]
+    _not: online_users_bool_exp
+    _or: [online_users_bool_exp]
+    id: String_comparison_exp
+    last_seen: timestamptz_comparison_exp
+    user: users_bool_exp
 }
 
-input users_select_column{
-    id: Int!
-    name: String!
-}
-
-type users_order_by{
-    id: Int!
+# ordering options when selecting data from "online_users"
+input online_users_order_by {
+    id: order_by
     last_seen: order_by
     user: users_order_by
 }
 
-input todos_constraint {
-    todos_pkey: ID!
+# select columns of table "online_users"
+enum online_users_select_column {
+    # column name
+    id
+    # column name
+    last_seen
 }
 
-type Mutation {
-    insert_todos_one(object: todos_insert_input!): todos!
+# column ordering options
+enum order_by {
+    # in the ascending order, nulls last
+    asc
+    # in the ascending order, nulls first
+    asc_nulls_first
+    # in the ascending order, nulls last
+    asc_nulls_last
+    # in the descending order, nulls first
+    desc
+    # in the descending order, nulls first
+    desc_nulls_first
+    # in the descending order, nulls last
+    desc_nulls_last
 }
 
-type Subscription {
-    todos(
-        distinct_on: [todos_sub_select_column!]
+# query root
+type query_root {
+    # fetch data from the table: "online_users"
+    online_users(
+        # distinct select on columns
+        distinct_on: [online_users_select_column!]
+        # limit the number of rows returned
         limit: Int
+        # skip the first n rows. Use only with order_by
         offset: Int
+        # sort the rows by one or more columns
+        order_by: [online_users_order_by!]
+        # filter the rows returned
+        where: online_users_bool_exp
+    ): [online_users!]!
+    # fetch data from the table: "todos"
+    todos(
+        # distinct select on columns
+        distinct_on: [todos_select_column!]
+        # limit the number of rows returned
+        limit: Int
+        # skip the first n rows. Use only with order_by
+        offset: Int
+        # sort the rows by one or more columns
         order_by: [todos_order_by!]
-        #        where: todos_bool_exp
+        # filter the rows returned
+        where: todos_bool_exp
     ): [todos!]!
-}
-
-input todos_update_column {
-    is_completed: String!
-    title: String!
-}
-
-type Query {
-    todos(
-        distinct_on: [messages_select_column!]
+    # fetch data from the table: "todos" using primary key columns
+    todos_by_pk(id: Int!): todos
+    # fetch data from the table: "users"
+    users(
+        # distinct select on columns
+        distinct_on: [users_select_column!]
+        # limit the number of rows returned
         limit: Int
+        # skip the first n rows. Use only with order_by
         offset: Int
-        order_by: [messages_select_column!]
-        where: messages_select_column
-    ): [todos_select_column!]!
+        # sort the rows by one or more columns
+        order_by: [users_order_by!]
+        # filter the rows returned
+        where: users_bool_exp
+    ): [users!]!
+    # fetch data from the table: "users" using primary key columns
+    users_by_pk(id: String!): users
 }
 
-enum messages_select_column {
-    id
-    title
-    user_id
+# expression to compare columns of type String. All fields are combined with logical 'AND'.
+input String_comparison_exp {
+    _eq: String
+    _gt: String
+    _gte: String
+    _ilike: String
+    _in: [String!]
+    _is_null: Boolean
+    _like: String
+    _lt: String
+    _lte: String
+    _neq: String
+    _nilike: String
+    _nin: [String!]
+    _nlike: String
+    _nsimilar: String
+    _similar: String
 }
 
-enum todos_order_by {
-    created_at
-    id
-    is_completed
-    is_public
-    title
-    user
-    user_id
+# subscription root
+type subscription_root {
+    # fetch data from the table: "online_users"
+    online_users(
+        # distinct select on columns
+        distinct_on: [online_users_select_column!]
+        # limit the number of rows returned
+        limit: Int
+        # skip the first n rows. Use only with order_by
+        offset: Int
+        # sort the rows by one or more columns
+        order_by: [online_users_order_by!]
+        # filter the rows returned
+        where: online_users_bool_exp
+    ): [online_users!]!
+    # fetch data from the table: "todos"
+    todos(
+        # distinct select on columns
+        distinct_on: [todos_select_column!]
+        # limit the number of rows returned
+        limit: Int
+        # skip the first n rows. Use only with order_by
+        offset: Int
+        # sort the rows by one or more columns
+        order_by: [todos_order_by!]
+        # filter the rows returned
+        where: todos_bool_exp
+    ): [todos!]!
+    # fetch data from the table: "todos" using primary key columns
+    todos_by_pk(id: Int!): todos
+    # fetch data from the table: "users"
+    users(
+        # distinct select on columns
+        distinct_on: [users_select_column!]
+        # limit the number of rows returned
+        limit: Int
+        # skip the first n rows. Use only with order_by
+        offset: Int
+        # sort the rows by one or more columns
+        order_by: [users_order_by!]
+        # filter the rows returned
+        where: users_bool_exp
+    ): [users!]!
+    # fetch data from the table: "users" using primary key columns
+    users_by_pk(id: String!): users
 }
 
-enum todos_sub_select_column {
-    created_at
-    id
-    is_completed
-    is_public
-    title
-    user_id
+scalar timestamptz
+
+# expression to compare columns of type timestamptz. All fields are combined with logical 'AND'.
+input timestamptz_comparison_exp {
+    _eq: timestamptz
+    _gt: timestamptz
+    _gte: timestamptz
+    _in: [timestamptz!]
+    _is_null: Boolean
+    _lt: timestamptz
+    _lte: timestamptz
+    _neq: timestamptz
+    _nin: [timestamptz!]
 }
 
+# columns and relationships of "todos"
+type todos {
+    created_at: timestamptz!
+    id: Int!
+    is_completed: Boolean!
+    is_public: Boolean!
+    title: String!
+    # An object relationship
+    user: users!
+    user_id: String!
+}
+
+# input type for inserting array relation for remote table "todos"
+input todos_arr_rel_insert_input {
+    data: [todos_insert_input!]!
+    on_conflict: todos_on_conflict
+}
+
+# Boolean expression to filter rows from the table "todos". All fields are combined with a logical 'AND'.
+input todos_bool_exp {
+    _and: [todos_bool_exp]
+    _not: todos_bool_exp
+    _or: [todos_bool_exp]
+    created_at: timestamptz_comparison_exp
+    id: Int_comparison_exp
+    is_completed: Boolean_comparison_exp
+    is_public: Boolean_comparison_exp
+    title: String_comparison_exp
+    user: users_bool_exp
+    user_id: String_comparison_exp
+}
+
+# unique or primary key constraints on table "todos"
+enum todos_constraint {
+    # unique or primary key constraint
+    todos_pkey
+}
+
+# input type for inserting data into table "todos"
 input todos_insert_input {
     is_public: Boolean
     title: String
 }
 
-input todos_on_conflict{
+# response of any mutation on the table "todos"
+type todos_mutation_response {
+    # number of affected rows by the mutation
+    affected_rows: Int!
+    # data of the affected rows by the mutation
+    returning: [todos!]!
+}
+
+# input type for inserting object relation for remote table "todos"
+input todos_obj_rel_insert_input {
+    data: todos_insert_input!
+    on_conflict: todos_on_conflict
+}
+
+# on conflict condition type for table "todos"
+input todos_on_conflict {
     constraint: todos_constraint!
     update_columns: [todos_update_column!]!
-    #    where: todos_bool_exp
+    where: todos_bool_exp
 }
 
-input PostUpdateInput {
-    body: String
+# ordering options when selecting data from "todos"
+input todos_order_by {
+    created_at: order_by
+    id: order_by
+    is_completed: order_by
+    is_public: order_by
+    title: order_by
+    user: users_order_by
+    user_id: order_by
+}
+
+# primary key columns input for table: "todos"
+input todos_pk_columns_input {
+    id: Int!
+}
+
+# select columns of table "todos"
+enum todos_select_column {
+    # column name
+    created_at
+    # column name
+    id
+    # column name
+    is_completed
+    # column name
+    is_public
+    # column name
+    title
+    # column name
+    user_id
+}
+
+# input type for updating data in table "todos"
+input todos_set_input {
+    is_completed: Boolean
     title: String
-    userId: Int
 }
 
-enum order_by {
-    asc
-    asc_nulls_first
-    asc_nulls_last
-    desc
-    desc_nulls_first
-    desc_nulls_last
+# update columns of table "todos"
+enum todos_update_column {
+    # column name
+    is_completed
+    # column name
+    title
+}
+
+# columns and relationships of "users"
+type users {
+    id: String!
+    name: String!
+    # An array relationship
+    todos(
+        # distinct select on columns
+        distinct_on: [todos_select_column!]
+        # limit the number of rows returned
+        limit: Int
+        # skip the first n rows. Use only with order_by
+        offset: Int
+        # sort the rows by one or more columns
+        order_by: [todos_order_by!]
+        # filter the rows returned
+        where: todos_bool_exp
+    ): [todos!]!
+}
+
+# Boolean expression to filter rows from the table "users". All fields are combined with a logical 'AND'.
+input users_bool_exp {
+    _and: [users_bool_exp]
+    _not: users_bool_exp
+    _or: [users_bool_exp]
+    id: String_comparison_exp
+    name: String_comparison_exp
+    todos: todos_bool_exp
+}
+
+# unique or primary key constraints on table "users"
+enum users_constraint {
+    # unique or primary key constraint
+    users_pkey
+}
+
+# response of any mutation on the table "users"
+type users_mutation_response {
+    # number of affected rows by the mutation
+    affected_rows: Int!
+    # data of the affected rows by the mutation
+    returning: [users!]!
+}
+
+# on conflict condition type for table "users"
+input users_on_conflict {
+    constraint: users_constraint!
+    update_columns: [users_update_column!]!
+    where: users_bool_exp
+}
+
+# ordering options when selecting data from "users"
+input users_order_by {
+    id: order_by
+    name: order_by
+}
+
+# primary key columns input for table: "users"
+input users_pk_columns_input {
+    id: String!
+}
+
+# select columns of table "users"
+enum users_select_column {
+    # column name
+    id
+    # column name
+    name
+}
+
+# input type for updating data in table "users"
+input users_set_input {
+    last_seen: timestamptz
+}
+
+# update columns of table "users"
+enum users_update_column {
+    # column name
+    last_seen
 }

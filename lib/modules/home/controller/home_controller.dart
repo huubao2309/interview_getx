@@ -27,7 +27,7 @@ class HomeController extends BaseController {
 
   var currentTab = MainTabs.home.obs;
   var userApp = Rxn<String>();
-  var totalListItems = RxList<GetActiveTodos$Query$TodosSelectColumn>();
+  var totalListItems = RxList<GetActiveTodos$QueryRoot$Todos>();
 
   final ScrollController scrollController = ScrollController();
   bool isLoadingMore = false;
@@ -52,7 +52,6 @@ class HomeController extends BaseController {
     await super.onReady();
     await loadUsers();
     hasNetworkStream.listen((value) async {
-      print('Value network: $value');
       if (value) {
         await loadListTodo(limit: 10, offset: 0);
         return;

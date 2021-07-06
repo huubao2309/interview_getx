@@ -10,10 +10,8 @@ abstract class NetworkManager {
     if (_networkController.connectionStatus.value != WIFI_NETWORK &&
         _networkController.connectionStatus.value != MOBILE_NETWORK &&
         _networkController.connectionStatus.value != INSTANCE_NETWORK) {
-      print('Value of connect network: ${_networkController.connectionStatus.value}');
       return false;
     } else {
-      print('Has connect with network with value:  ${_networkController.connectionStatus.value}');
       return true;
     }
   }
