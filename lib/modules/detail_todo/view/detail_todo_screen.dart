@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 
 class DetailTodoScreen extends StatefulWidget {
   final controller = Get.arguments[0];
-  dynamic item = Get.arguments[1];
+  final item = Get.arguments[1];
 
   @override
   _DetailTodoScreenState createState() => _DetailTodoScreenState();
