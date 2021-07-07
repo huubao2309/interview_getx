@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:interview_getx/models/todos_model/todo_model.dart';
 import 'package:interview_getx/shared/styles/text_style.dart';
 import 'package:interview_getx/shared/utils/common_widget.dart';
 import 'package:intl/intl.dart';
 
 class DetailTodoScreen extends StatefulWidget {
   final controller = Get.arguments[0];
-  final item = Get.arguments[1];
+  dynamic item = Get.arguments[1];
 
   @override
   _DetailTodoScreenState createState() => _DetailTodoScreenState();
@@ -20,12 +21,12 @@ class _DetailTodoScreenState extends State<DetailTodoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final formatter = DateFormat('dd-MM-yyyy');
-
+    final formatter = DateFormat('dd-MM-yyyy hh:mm:ss');
+    final item = widget.item as TodoModel;
     return Scaffold(
       appBar: CommonWidget.appBar(
         context,
-        widget.item.title,
+        item.id.toString(),
         automaticallyImplyLeading: true,
       ),
       body: Center(
@@ -49,7 +50,7 @@ class _DetailTodoScreenState extends State<DetailTodoScreen> {
                         ),
                         const SizedBox(width: 5),
                         Text(
-                          widget.item.id.toString(),
+                          item.id.toString(),
                           style: TextAppStyle().bodyContentTextStyle(),
                         ),
                       ],
@@ -65,7 +66,7 @@ class _DetailTodoScreenState extends State<DetailTodoScreen> {
                         ),
                         const SizedBox(width: 5),
                         Text(
-                          widget.item.title,
+                          item.title ?? '',
                           style: TextAppStyle().bodyContentTextStyle(),
                         ),
                       ],
@@ -81,7 +82,7 @@ class _DetailTodoScreenState extends State<DetailTodoScreen> {
                         ),
                         const SizedBox(width: 5),
                         Text(
-                          widget.item.user.name,
+                          item.user!.name ?? '',
                           style: TextAppStyle().bodyContentTextStyle(),
                         ),
                       ],
@@ -97,7 +98,7 @@ class _DetailTodoScreenState extends State<DetailTodoScreen> {
                         ),
                         const SizedBox(width: 5),
                         Text(
-                          formatter.format(widget.item.createdAt),
+                          formatter.format(item.createdAt!),
                           style: TextAppStyle().bodyContentTextStyle(),
                         ),
                       ],

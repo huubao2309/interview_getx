@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'package:interview_getx/data/common/common_method.dart';
 import 'package:interview_getx/data/interceptors/graphql_interceptor.dart';
+import 'package:interview_getx/models/todos_model/todo_model.dart';
 import '../../data/common/define_api.dart';
 import '../../data/graphql/query/demo_query_graphql.dart';
 import '../../data/service/api_provider.dart';
@@ -27,12 +29,12 @@ class ApiRepository {
     }
   }
 
-  Future<List<GetActiveTodos$QueryRoot$Todos>> getList({required int limit, required int offset}) async {
-    final c = Completer<List<GetActiveTodos$QueryRoot$Todos>>();
+  Future<List<TodoModel>> getList({required int limit, required int offset}) async {
+    final c = Completer<List<TodoModel>>();
     try {
       final results = await apiProvider.getListTodo(limit: limit, offset: offset);
       if (!results.hasException) {
-        final listTodo = GetActiveTodos$QueryRoot.fromJson(results.data!).todos;
+        final listTodo = convertListTodoModel(GetActiveTodos$QueryRoot.fromJson(results.data!).todos);
         c.complete(listTodo);
       } else {
         print('Exception: ${results.exception}');

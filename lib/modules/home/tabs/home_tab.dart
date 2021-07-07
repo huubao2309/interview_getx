@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:interview_getx/models/todos_model/todo_model.dart';
 import 'package:interview_getx/routes/app_pages.dart';
 import 'package:interview_getx/shared/styles/text_style.dart';
-import '../../../data/graphql/query/demo_query_graphql.dart';
 import '../../../modules/home/controller/home_controller.dart';
 import '../../../shared/utils/common_widget.dart';
 
@@ -63,7 +63,7 @@ class MainTab extends GetView<HomeController> {
     );
   }
 
-  Widget _detailOrderTransaction(GetActiveTodos$QueryRoot$Todos item, int index) {
+  Widget _detailOrderTransaction(TodoModel item, int index) {
     return GestureDetector(
       onTap: () {
         Get.toNamed(Routes.HOME + Routes.DETAIL_TODO, arguments: [controller, item]);
@@ -102,7 +102,7 @@ class MainTab extends GetView<HomeController> {
                     ),
                     const SizedBox(width: 5),
                     Text(
-                      item.title,
+                      item.title ?? '',
                       style: TextAppStyle().bodyContentTextStyle(),
                     ),
                   ],

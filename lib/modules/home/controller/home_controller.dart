@@ -4,12 +4,12 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:interview_getx/data/base/base_controller.dart';
 import 'package:interview_getx/data/common/define_field.dart';
+import 'package:interview_getx/models/todos_model/todo_model.dart';
 import 'package:interview_getx/modules/home/constants/constant.dart';
 import 'package:interview_getx/shared/constants/common.dart';
 import 'package:interview_getx/shared/dialog_manager/services/dialog_service.dart';
 import 'package:interview_getx/shared/network/constants/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../data/graphql/query/demo_query_graphql.dart';
 import '../../../data/repository/api_repository.dart';
 import '../../../modules/auth/controller/auth_controller.dart';
 import '../../../modules/home/tabs/home_tab.dart';
@@ -27,7 +27,7 @@ class HomeController extends BaseController {
 
   var currentTab = MainTabs.home.obs;
   var userApp = Rxn<String>();
-  var totalListItems = RxList<GetActiveTodos$QueryRoot$Todos>();
+  var totalListItems = RxList<TodoModel>();
 
   final ScrollController scrollController = ScrollController();
   bool isLoadingMore = false;

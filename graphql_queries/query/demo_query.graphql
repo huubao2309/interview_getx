@@ -5,6 +5,7 @@ query getActiveTodos($limit: Int, $offset: Int) {
         id
         created_at
         user {
+            id
             name
         }
     }
