@@ -3,7 +3,7 @@ import 'package:interview_getx/shared/dialog_manager/services/dialog_service.dar
 
 class LocateService extends GetxService {
   Future<DialogService> init() async {
-    Get.lazyPut<DialogService>(() => DialogService());
+    Get.lazyPut<DialogService>(DialogService.new);
     return DialogService();
   }
 }

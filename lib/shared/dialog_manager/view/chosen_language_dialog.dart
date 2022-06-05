@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:interview_getx/shared/constants/colors.dart';
 import 'package:get/get.dart';
+import 'package:interview_getx/shared/constants/colors.dart';
 
 class ChosenLanguageDialog extends StatelessWidget {
   const ChosenLanguageDialog({

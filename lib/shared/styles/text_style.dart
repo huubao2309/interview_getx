@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:interview_getx/shared/theme/theme_style/text_theme.dart';
 
 class TextAppStyle {
+  final TextThemeApp textThemeApp = TextThemeApp();
+
   TextStyle titleTextStyle() {
     return Get.theme.textTheme.headline6!;
   }
 
   TextStyle bodyContentTextStyle() {
-    return Get.theme.textTheme.bodyText1!;
+    // return Get.theme.textTheme.bodyText1!;
+    return textThemeApp.bodyText1;
   }
 
   TextStyle versionTextStyle() {

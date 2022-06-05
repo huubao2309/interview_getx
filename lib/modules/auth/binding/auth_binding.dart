@@ -1,12 +1,15 @@
 import 'package:get/get.dart';
-import 'package:interview_getx/data/base/base_binding.dart';
 
 import '../controller/auth_controller.dart';
 
-class AuthBinding extends BaseBinding {
+class AuthBinding implements Bindings {
   @override
   void dependencies() {
-    super.dependencies();
-    Get.lazyPut<AuthController>(() => AuthController(apiRepository: Get.find()));
+    Get.lazyPut<AuthController>(
+      () => AuthController(
+        login: Get.find(),
+        register: Get.find(),
+      ),
+    );
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:interview_getx/modules/auth/controller/auth_controller.dart';
 import 'package:get/get.dart';
+import 'package:interview_getx/modules/auth/controller/auth_controller.dart';
 import 'package:interview_getx/shared/utils/common_widget.dart';
 import 'package:interview_getx/shared/utils/regex.dart';
 import 'package:interview_getx/shared/widgets/background/gradient_background.dart';
@@ -112,8 +112,8 @@ class RegisterScreen extends StatelessWidget {
               text: 'register'.tr.toUpperCase(),
               textColor: Colors.green,
               backgroundColor: Colors.white,
-              onPressed: () {
-                controller.register(context);
+              onPressed: () async {
+                await controller.registerHandler(context);
               },
             ),
           ],

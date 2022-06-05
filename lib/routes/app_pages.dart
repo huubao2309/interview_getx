@@ -16,24 +16,24 @@ const INITIAL = Routes.SPLASH;
 final routePages = [
   GetPage(
     name: Routes.SPLASH,
-    page: () => SplashScreen(),
+    page: SplashScreen.new,
     binding: SplashBinding(),
   ),
   GetPage(
     name: Routes.AUTH,
-    page: () => AuthScreen(),
+    page: AuthScreen.new,
     binding: AuthBinding(),
     children: [
-      GetPage(name: Routes.REGISTER, page: () => RegisterScreen()),
-      GetPage(name: Routes.LOGIN, page: () => LoginScreen()),
+      GetPage(name: Routes.REGISTER, page: RegisterScreen.new),
+      GetPage(name: Routes.LOGIN, page: LoginScreen.new),
     ],
   ),
   GetPage(
     name: Routes.HOME,
-    page: () => HomeScreen(),
+    page: HomeScreen.new,
     binding: HomeBinding(),
     children: [
-      GetPage(name: Routes.DETAIL_TODO, page: () => DetailTodoScreen()),
+      GetPage(name: Routes.DETAIL_TODO, page: DetailTodoScreen.new),
     ],
   ),
 ];

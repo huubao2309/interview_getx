@@ -11,30 +11,29 @@ import 'shared/dialog_manager/managers/dialog_manager.dart';
 import 'shared/theme/theme_data.dart';
 
 class App extends StatelessWidget {
+  final ThemeConfig themeConfig = ThemeConfig();
+
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       enableLog: true,
       initialRoute: Routes.SPLASH,
-      defaultTransition: Transition.fade,
+      defaultTransition: Transition.rightToLeftWithFade,
       getPages: routePages,
       initialBinding: AppBinding(),
       smartManagement: SmartManagement.keepFactory,
       title: APP_NAME,
-      theme: ThemeConfig.lightTheme,
-      darkTheme: ThemeConfig.darkTheme,
+      theme: themeConfig.lightTheme,
+      darkTheme: themeConfig.darkTheme,
       themeMode: ThemeMode.light,
       locale: TranslationService.locale,
       fallbackLocale: TranslationService.fallbackLocale,
       translations: TranslationService(),
       builder: EasyLoading.init(builder: (context, widget) {
-        return Navigator(
-          onGenerateRoute: (settings) => MaterialPageRoute(
-            builder: (context) => DialogManager(
-              child: widget!,
-            ),
-          ),
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(textScaleFactor: 1),
+          child: DialogManager(child: widget!),
         );
       }),
     );

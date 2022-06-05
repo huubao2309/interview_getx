@@ -16,7 +16,6 @@ class _AppCheckboxState extends State<AppCheckbox> {
   bool? _checked = false;
 
   void _onChecked(bool? checked) {
-    print(checked);
     setState(() {
       _checked = checked;
     });

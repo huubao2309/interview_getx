@@ -2,10 +2,42 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:interview_getx/shared/constants/colors.dart';
 
+import 'theme_style/text_theme.dart';
+
 class ThemeConfig {
   ThemeConfig();
 
-  static ThemeData createTheme({
+  ThemeData get lightTheme => createTheme(
+        brightness: Brightness.light,
+        primaryColor: AppColor.primaryColorDark,
+        primaryBackgroundColor: AppColor.primaryBackgroundColorLight,
+        primaryTextColor: AppColor.primaryTextColorLight,
+        secondTextColor: AppColor.secondTextColorLight,
+        hintText: AppColor.primaryHintColorLight,
+        accentColor: AppColor.accentColorLight,
+        divider: AppColor.dividerColorLight,
+        disabled: AppColor.disabledColorLight,
+        shadowColor: AppColor.shadowColorLight,
+        primaryBorderColor: AppColor.primaryBorderColorLight,
+        error: AppColor.errorColorLight,
+      );
+
+  ThemeData get darkTheme => createTheme(
+        brightness: Brightness.dark,
+        primaryColor: AppColor.primaryColorDark,
+        primaryBackgroundColor: AppColor.primaryBackgroundColorDark,
+        primaryTextColor: AppColor.primaryTextColorDark,
+        secondTextColor: AppColor.secondTextColorDark,
+        hintText: AppColor.primaryHintColorDark,
+        accentColor: AppColor.accentColorDark,
+        divider: AppColor.dividerColorDark,
+        disabled: AppColor.disabledColorDark,
+        shadowColor: AppColor.shadowColorDark,
+        primaryBorderColor: AppColor.primaryBorderColorDark,
+        error: AppColor.errorColorDark,
+      );
+
+  ThemeData createTheme({
     required Brightness brightness,
     required Color primaryColor,
     required Color accentColor,
@@ -21,9 +53,10 @@ class ThemeConfig {
   }) {
     final baseTextTheme = brightness == Brightness.dark ? Typography.blackMountainView : Typography.whiteMountainView;
 
+    final textThemeApp = TextThemeApp(baseTextTheme: baseTextTheme);
+
     return ThemeData(
-      brightness: brightness,
-      buttonColor: primaryColor,
+      // brightness: brightness,
       canvasColor: primaryBackgroundColor,
       cardColor: primaryBackgroundColor,
       dividerColor: divider,
@@ -45,7 +78,6 @@ class ThemeConfig {
       ),
       backgroundColor: primaryBackgroundColor,
       primaryColor: primaryColor,
-      accentColor: accentColor,
       textSelectionTheme: TextSelectionThemeData(
         cursorColor: accentColor,
         selectionColor: accentColor,
@@ -53,17 +85,20 @@ class ThemeConfig {
       ),
       toggleableActiveColor: accentColor,
       appBarTheme: AppBarTheme(
-        brightness: brightness,
         color: primaryColor,
-        textTheme: TextTheme(
+        iconTheme: IconThemeData(
+          color: secondTextColor,
+        ), toolbarTextStyle: TextTheme(
           bodyText1: baseTextTheme.bodyText1!.copyWith(
             color: secondTextColor,
             fontSize: 18,
           ),
-        ),
-        iconTheme: IconThemeData(
-          color: secondTextColor,
-        ),
+        ).bodyText2, titleTextStyle: TextTheme(
+          bodyText1: baseTextTheme.bodyText1!.copyWith(
+            color: secondTextColor,
+            fontSize: 18,
+          ),
+        ).headline6,
       ),
       iconTheme: IconThemeData(
         color: secondTextColor,
@@ -75,9 +110,7 @@ class ThemeConfig {
         colorScheme: ColorScheme(
           brightness: brightness,
           primary: primaryColor,
-          primaryVariant: accentColor,
           secondary: accentColor,
-          secondaryVariant: accentColor,
           surface: primaryBackgroundColor,
           background: primaryColor,
           error: error,
@@ -109,102 +142,76 @@ class ThemeConfig {
       ),
       fontFamily: 'Rubik',
       unselectedWidgetColor: Colors.grey,
-      textTheme: TextTheme(
-        headline1: baseTextTheme.headline1!.copyWith(
-          color: primaryTextColor,
-          fontSize: 34,
-          fontWeight: FontWeight.bold,
-        ),
-        headline2: baseTextTheme.headline2!.copyWith(
-          color: primaryTextColor,
-          fontSize: 34,
-          fontWeight: FontWeight.bold,
-        ),
-        headline3: baseTextTheme.headline3!.copyWith(
-          color: primaryTextColor,
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
-        ),
-        headline4: baseTextTheme.headline4!.copyWith(
-          color: primaryTextColor,
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
-        ),
-        headline5: baseTextTheme.headline5!.copyWith(
-          color: primaryColor,
-          fontSize: 14,
-          fontWeight: FontWeight.w700,
-        ),
-        headline6: baseTextTheme.headline6!.copyWith(
-          color: primaryTextColor,
-          fontSize: 14,
-          fontWeight: FontWeight.w700,
-        ),
-        bodyText1: baseTextTheme.bodyText1!.copyWith(
-          color: primaryTextColor,
-          fontSize: 14,
-        ),
-        bodyText2: baseTextTheme.bodyText2!.copyWith(
-          color: primaryTextColor,
-          fontSize: 14,
-          fontWeight: FontWeight.w400,
-        ),
-        subtitle1: baseTextTheme.subtitle1!.copyWith(
-          color: primaryTextColor,
-          fontSize: 16,
-          fontWeight: FontWeight.w700,
-        ),
-        subtitle2: baseTextTheme.subtitle2!.copyWith(
-          color: primaryTextColor,
-          fontSize: 11,
-          fontWeight: FontWeight.w500,
-        ),
-        button: baseTextTheme.button!.copyWith(
-          color: primaryTextColor,
-          fontSize: 12,
-          fontWeight: FontWeight.w700,
-        ),
-        caption: baseTextTheme.caption!.copyWith(
-          color: primaryTextColor,
-          fontSize: 11,
-          fontWeight: FontWeight.w300,
-        ),
-        overline: baseTextTheme.overline!.copyWith(
-          color: primaryTextColor,
-          fontSize: 11,
-          fontWeight: FontWeight.w500,
-        ),
-      ),
+      // textTheme: TextTheme(
+      //   headline1: baseTextTheme.headline1!.copyWith(
+      //     color: primaryTextColor,
+      //     fontSize: 34,
+      //     fontWeight: FontWeight.bold,
+      //   ),
+      //   headline2: baseTextTheme.headline2!.copyWith(
+      //     color: primaryTextColor,
+      //     fontSize: 34,
+      //     fontWeight: FontWeight.bold,
+      //   ),
+      //   headline3: baseTextTheme.headline3!.copyWith(
+      //     color: primaryTextColor,
+      //     fontSize: 20,
+      //     fontWeight: FontWeight.w600,
+      //   ),
+      //   headline4: baseTextTheme.headline4!.copyWith(
+      //     color: primaryTextColor,
+      //     fontSize: 20,
+      //     fontWeight: FontWeight.w600,
+      //   ),
+      //   headline5: baseTextTheme.headline5!.copyWith(
+      //     color: primaryColor,
+      //     fontSize: 14,
+      //     fontWeight: FontWeight.w700,
+      //   ),
+      //   headline6: baseTextTheme.headline6!.copyWith(
+      //     color: primaryTextColor,
+      //     fontSize: 14,
+      //     fontWeight: FontWeight.w700,
+      //   ),
+      //   bodyText1: baseTextTheme.bodyText1!.copyWith(
+      //     color: primaryTextColor,
+      //     fontSize: 14,
+      //   ),
+      //   bodyText2: baseTextTheme.bodyText2!.copyWith(
+      //     color: primaryTextColor,
+      //     fontSize: 14,
+      //     fontWeight: FontWeight.w400,
+      //   ),
+      //   subtitle1: baseTextTheme.subtitle1!.copyWith(
+      //     color: primaryTextColor,
+      //     fontSize: 16,
+      //     fontWeight: FontWeight.w700,
+      //   ),
+      //   subtitle2: baseTextTheme.subtitle2!.copyWith(
+      //     color: primaryTextColor,
+      //     fontSize: 11,
+      //     fontWeight: FontWeight.w500,
+      //   ),
+      //   button: baseTextTheme.button!.copyWith(
+      //     color: primaryTextColor,
+      //     fontSize: 12,
+      //     fontWeight: FontWeight.w700,
+      //   ),
+      //   caption: baseTextTheme.caption!.copyWith(
+      //     color: primaryTextColor,
+      //     fontSize: 11,
+      //     fontWeight: FontWeight.w300,
+      //   ),
+      //   overline: baseTextTheme.overline!.copyWith(
+      //     color: primaryTextColor,
+      //     fontSize: 11,
+      //     fontWeight: FontWeight.w500,
+      //   ),
+      // ),
+      textTheme: textThemeApp.initTextThemeApp(
+        primaryTextColor: primaryTextColor,
+        primaryColor: primaryColor,
+      ), colorScheme: ColorScheme.fromSwatch().copyWith(secondary: accentColor),
     );
   }
-
-  static ThemeData get lightTheme => createTheme(
-        brightness: Brightness.light,
-        primaryColor: AppColor.primaryColorDark,
-        primaryBackgroundColor: AppColor.primaryBackgroundColorLight,
-        primaryTextColor: AppColor.primaryTextColorLight,
-        secondTextColor: AppColor.secondTextColorLight,
-        hintText: AppColor.primaryHintColorLight,
-        accentColor: AppColor.accentColorLight,
-        divider: AppColor.dividerColorLight,
-        disabled: AppColor.disabledColorLight,
-        shadowColor: AppColor.shadowColorLight,
-        primaryBorderColor: AppColor.primaryBorderColorLight,
-        error: AppColor.errorColorLight,
-      );
-
-  static ThemeData get darkTheme => createTheme(
-        brightness: Brightness.dark,
-        primaryColor: AppColor.primaryColorDark,
-        primaryBackgroundColor: AppColor.primaryBackgroundColorDark,
-        primaryTextColor: AppColor.primaryTextColorDark,
-        secondTextColor: AppColor.secondTextColorDark,
-        hintText: AppColor.primaryHintColorDark,
-        accentColor: AppColor.accentColorDark,
-        divider: AppColor.dividerColorDark,
-        disabled: AppColor.disabledColorDark,
-        shadowColor: AppColor.shadowColorDark,
-        primaryBorderColor: AppColor.primaryBorderColorDark,
-        error: AppColor.errorColorDark,
-      );
 }

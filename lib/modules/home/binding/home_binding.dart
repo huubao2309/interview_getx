@@ -1,12 +1,9 @@
 import 'package:get/get.dart';
-import 'package:interview_getx/data/base/base_binding.dart';
+import 'package:interview_getx/modules/home/controller/home_controller.dart';
 
-import '../controller/home_controller.dart';
-
-class HomeBinding extends BaseBinding {
+class HomeBinding implements Bindings {
   @override
   void dependencies() {
-    super.dependencies();
-    Get.lazyPut<HomeController>(() => HomeController(apiRepository: Get.find()));
+    Get.lazyPut<HomeController>(() => HomeController(getListTodo: Get.find()));
   }
 }

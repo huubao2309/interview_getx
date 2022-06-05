@@ -1,33 +1,35 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:interview_getx/data/base/base_controller.dart';
 import 'package:interview_getx/data/common/define_field.dart';
-import 'package:interview_getx/models/todos_model/todo_model.dart';
+import 'package:interview_getx/domain/entities/todos/todo_model.dart';
+import 'package:interview_getx/domain/params/get_list_todo_request.dart';
+import 'package:interview_getx/domain/usecases/local_storage/get_shared_preferences.dart';
+import 'package:interview_getx/domain/usecases/todo_usecase/get_list_todo.dart';
+import 'package:interview_getx/modules/auth/controller/auth_controller.dart';
 import 'package:interview_getx/modules/home/constants/constant.dart';
+import 'package:interview_getx/modules/home/tabs/home_tab.dart';
+import 'package:interview_getx/modules/home/tabs/setting_tab.dart';
+import 'package:interview_getx/modules/home/tabs/tabs.dart';
+import 'package:interview_getx/routes/app_pages.dart';
 import 'package:interview_getx/shared/constants/common.dart';
+import 'package:interview_getx/shared/constants/storage.dart';
+import 'package:interview_getx/shared/dialog_manager/data_models/request/common_dialog_request.dart';
+import 'package:interview_getx/shared/dialog_manager/data_models/type_dialog.dart';
 import 'package:interview_getx/shared/dialog_manager/services/dialog_service.dart';
-import 'package:interview_getx/shared/network/constants/constants.dart';
+import 'package:interview_getx/shared/utils/logger/my_app_logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../data/repository/api_repository.dart';
-import '../../../modules/auth/controller/auth_controller.dart';
-import '../../../modules/home/tabs/home_tab.dart';
-import '../../../modules/home/tabs/setting_tab.dart';
-import '../../../modules/home/tabs/tabs.dart';
-import '../../../routes/app_pages.dart';
-import '../../../shared/constants/storage.dart';
-import '../../../shared/dialog_manager/data_models/request/common_dialog_request.dart';
-import '../../../shared/dialog_manager/data_models/type_dialog.dart';
 
-class HomeController extends BaseController {
-  HomeController({required this.apiRepository});
+class HomeController extends SuperController {
+  HomeController({required this.getListTodo});
 
-  final ApiRepository apiRepository;
+  final GetListTodo getListTodo;
+
+  MyAppLogger get logger => const MyAppLogger('HomeController');
 
   var currentTab = MainTabs.home.obs;
   var userApp = Rxn<String>();
-  var totalListItems = RxList<TodoModel>();
+  var totalListItems = RxList<TodoItem>();
 
   final ScrollController scrollController = ScrollController();
   bool isLoadingMore = false;
@@ -37,62 +39,69 @@ class HomeController extends BaseController {
 
   final int stepLimitItem = 10;
   RxInt offsetItem = 0.obs;
-
-  RxBool isChangeTheme = false.obs;
+  RxBool isDarkMode = false.obs;
 
   @override
   Future<void> onInit() async {
+    super.onInit();
     mainTab = MainTab();
     settingTab = SettingTab();
-    await super.onInit();
+    isDarkMode.value = await _checkThemeApp();
+    await loadListTodo(offset: 0, limit: 10);
   }
 
   @override
   Future<void> onReady() async {
-    await super.onReady();
-    await loadUsers();
-    hasNetworkStream.listen((value) async {
-      if (value) {
-        await loadListTodo(limit: 10, offset: 0);
-        return;
-      }
-    });
+    super.onReady();
+  }
+
+  Future<bool> _checkThemeApp() async {
+    final storage = Get.find<GetSharedPreferences>();
+    final themeApp = storage.value.getLocalThemeApp();
+    if (themeApp == DARK_THEME) {
+      return true;
+    }
+
+    return false;
   }
 
   Future<void> loadUsers() async {
-    final storage = Get.find<SharedPreferences>();
-    final user = storage.get(StorageConstants.userId) ?? 'no_name'.tr;
-    userApp.value = user.toString();
+    final storage = Get.find<GetSharedPreferences>();
+    final user = storage.value.getLocalId();
+    if (user.isEmpty) {
+      userApp.value = 'no_name'.tr;
+      return;
+    }
+
+    userApp.value = user;
   }
 
   Future<void> loadListTodo({required int limit, required int offset}) async {
-    await EasyLoading.show();
-    await apiRepository.getList(limit: limit, offset: offset).then(
-      (result) async {
-        if (result.isNotEmpty) {
-          if (totalListItems.isNotEmpty && totalListItems.length >= offsetItem.value + stepLimitItem) {
-            totalListItems.addAll(result);
-            offsetItem.value = offsetItem.toInt() + stepLimitItem;
-          } else {
-            totalListItems.value = result;
-          }
-        } else {
-          final dialogRequest = CommonDialogRequest(
-            title: 'error'.tr,
-            description: 'unknown_error'.tr,
-            typeDialog: DIALOG_ONE_BUTTON,
-            defineEvent: 'unknown_error',
-          );
-          await _doShowDialog(dialogRequest);
-        }
-        await EasyLoading.dismiss();
-      },
-      onError: (e) async {
-        print(e);
-        await EasyLoading.dismiss();
-        await _doShowDialog(handleErrorResponse(e));
-      },
+    try {
+      await EasyLoading.show();
+      final request = GetListTodoRequest(offset: offset, limit: limit);
+      final result = await getListTodo.callAsync(request);
+      if (result.hasError) {
+        await _dialogError();
+        return;
+      }
+
+      totalListItems.addAll(result.items!);
+    } catch (ex) {
+      await _dialogError();
+    } finally {
+      await EasyLoading.dismiss();
+    }
+  }
+
+  Future<void> _dialogError() async {
+    final dialogRequest = CommonDialogRequest(
+      title: 'error'.tr,
+      description: 'unknown_error'.tr,
+      typeDialog: DIALOG_ONE_BUTTON,
+      defineEvent: 'unknown_error',
     );
+    await _doShowDialog(dialogRequest);
   }
 
   Future<void> confirmLogout() async {
@@ -116,11 +125,9 @@ class HomeController extends BaseController {
         authController.loginPasswordController.value = TextEditingValue.empty;
         Get.back();
       } else {
-        Get.lazyPut(() => AuthController(apiRepository: apiRepository));
         await Get.offAllNamed(Routes.AUTH);
       }
     } catch (e) {
-      Get.lazyPut(() => AuthController(apiRepository: apiRepository));
       await Get.toNamed(Routes.AUTH);
     } finally {
       currentTab.value = MainTabs.home;
@@ -132,18 +139,15 @@ class HomeController extends BaseController {
     final dialogResult = await locator.showDialog(dialogRequest);
 
     if (dialogResult.confirmed) {
-      print('User press confirm');
+      logger.log(content: 'User press confirm');
       handleEventDialog(dialogRequest.defineEvent);
     } else {
-      print('User press cancel!');
+      logger.log(content: 'User press cancel!');
     }
   }
 
   void handleEventDialog(String? defineEvent) {
     switch (defineEvent) {
-      case NO_CONNECT_NETWORK:
-        checkConnectNetwork();
-        break;
       case ErrorExpiredTokenCode:
         logOut();
         break;
@@ -162,33 +166,37 @@ class HomeController extends BaseController {
     currentTab.value = tab;
   }
 
-  void changeTheme() {
-    Get.find<SharedPreferences>().setString(StorageConstants.theme, Get.isDarkMode ? LIGHT_THEME : DARK_THEME);
-    Get.changeThemeMode(Get.isDarkMode ? ThemeMode.light : ThemeMode.dark);
+  Future<void> changeTheme() async {
+    final currentTheme = isDarkMode.value;
+    isDarkMode.value = !currentTheme;
+    Get.changeThemeMode(isDarkMode.value ? ThemeMode.dark : ThemeMode.light);
+
+    final getSharedPreferences = Get.find<GetSharedPreferences>();
+    await getSharedPreferences.value.setLocalThemeApp(theme: isDarkMode.value ? DARK_THEME : LIGHT_THEME);
   }
 
   Future<void> changeLanguage() async {
-    final prefs = Get.find<SharedPreferences>();
-    final language = prefs.getString(StorageConstants.language);
+    final storage = Get.find<GetSharedPreferences>();
+    final language = storage.value.getLocalLanguageApp();
     final locator = Get.find<DialogService>();
     final dialogResult = await locator.showLanguageDialog(
       languages: const [VIETNAMESE_LANG, ENGLISH_LANG],
       isMustTapButton: true,
     );
 
-    if (language != null && language == dialogResult.language) {
+    if (language == dialogResult.language) {
       return;
     }
 
     if (dialogResult.language == VIETNAMESE_LANG) {
-      Get.updateLocale(const Locale('vi', 'VN'));
+      await Get.updateLocale(const Locale('vi', 'VN'));
     }
 
     if (dialogResult.language == ENGLISH_LANG) {
-      Get.updateLocale(const Locale('en', 'US'));
+      await Get.updateLocale(const Locale('en', 'US'));
     }
 
-    await prefs.setString(StorageConstants.language, dialogResult.language);
+    await storage.value.setLocalLanguageApp(language: dialogResult.language);
   }
 
   int getCurrentIndex(MainTabs tab) {
@@ -211,6 +219,26 @@ class HomeController extends BaseController {
       default:
         return MainTabs.home;
     }
+  }
+
+  @override
+  void onDetached() {
+    // TODO: implement onDetached
+  }
+
+  @override
+  void onInactive() {
+    // TODO: implement onInactive
+  }
+
+  @override
+  void onPaused() {
+    // TODO: implement onPaused
+  }
+
+  @override
+  void onResumed() {
+    // TODO: implement onResumed
   }
 
   @override

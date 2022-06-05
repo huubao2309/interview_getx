@@ -21,14 +21,11 @@ class GradientBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     return needTopSafeArea
         ? Container(
-      color: Theme
-          .of(context)
-          .colorScheme
-          .primaryVariant,
-      child: SafeArea(
-        child: _buildBackground(context),
-      ),
-    )
+            color: Theme.of(context).colorScheme.primaryContainer,
+            child: SafeArea(
+              child: _buildBackground(context),
+            ),
+          )
         : _buildBackground(context);
   }
 
@@ -39,9 +36,9 @@ class GradientBackground extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: needTopRadius
                 ? const BorderRadius.only(
-              topLeft: Radius.circular(25),
-              topRight: Radius.circular(25),
-            )
+                    topLeft: Radius.circular(25),
+                    topRight: Radius.circular(25),
+                  )
                 : null,
             gradient: LinearGradient(
               begin: Alignment.topLeft,
@@ -75,10 +72,7 @@ class GradientBackground extends StatelessWidget {
               ),
               waveAmplitude: 20,
               size: Size(
-                MediaQuery
-                    .of(context)
-                    .size
-                    .width,
+                MediaQuery.of(context).size.width,
                 60,
               ),
             ),

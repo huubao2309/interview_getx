@@ -1,13 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:interview_getx/modules/home/controller/home_controller.dart';
 import 'package:get/get.dart';
+import 'package:interview_getx/modules/home/controller/home_controller.dart';
 import 'package:interview_getx/shared/styles/icon_style.dart';
 import 'package:interview_getx/shared/styles/text_style.dart';
 import 'package:interview_getx/shared/utils/common_widget.dart';
 import 'package:interview_getx/shared/widgets/switch_widget/switch_widget.dart';
 
 class SettingTab extends GetView<HomeController> {
+  final TextAppStyle textAppStyle = TextAppStyle();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,9 +18,9 @@ class SettingTab extends GetView<HomeController> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             const SizedBox(height: 20),
-            Obx(_buildInfoUserWidget),
+            _buildInfoUserWidget(),
             const SizedBox(height: 20),
-            _buildThemeSettingWidget(context),
+            // _buildThemeSettingWidget(context),
             _buildLanguageSettingWidget(),
             _buildLogoutSettingWidget(),
             _buildVersionWidget(),
@@ -54,7 +55,7 @@ class SettingTab extends GetView<HomeController> {
               const SizedBox(width: 12),
               Text(
                 controller.userApp.value ?? 'no_name'.tr,
-                style: TextAppStyle().bodyContentTextStyle(),
+                style: textAppStyle.bodyContentTextStyle(),
               ),
             ],
           ),
@@ -133,12 +134,14 @@ class SettingTab extends GetView<HomeController> {
               ),
               const Spacer(),
               // Icon(Icons.navigate_next, color: context.theme.primaryColor),
-              SwitchWidget(
-                value: Get.isDarkMode,
-                onChanged: (value) {
-                  controller.changeTheme();
-                },
-              ),
+              Obx(() {
+                return SwitchWidget(
+                  value: controller.isDarkMode.value,
+                  onChanged: (value) async {
+                    await controller.changeTheme();
+                  },
+                );
+              }),
             ],
           ),
         ),

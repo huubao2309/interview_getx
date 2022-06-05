@@ -1,23 +1,28 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:interview_getx/domain/usecases/local_storage/get_shared_preferences.dart';
 import 'package:interview_getx/routes/app_pages.dart';
 import 'package:interview_getx/shared/constants/common.dart';
-import 'package:interview_getx/shared/constants/storage.dart';
-import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:interview_getx/shared/utils/logger/my_app_logger.dart';
 
-class SplashController extends GetxController {
+class SplashController extends SuperController {
+  MyAppLogger get logger => const MyAppLogger('SplashController');
+
+  @override
+  Future<void> onInit() async {
+    super.onInit();
+  }
+
   @override
   Future<void> onReady() async {
     super.onReady();
 
-    await Future.delayed(const Duration(milliseconds: 2000));
-    final storage = Get.find<SharedPreferences>();
-    loadLanguage(storage);
-    loadTheme(storage);
+    final getSharedPreferences = Get.find<GetSharedPreferences>();
+    await _initInfoDevice(getSharedPreferences);
     try {
-      if (storage.getString(StorageConstants.token) != null) {
-        print('Token: ${storage.getString(StorageConstants.token)}');
+      final token = getSharedPreferences.value.getLocalToken();
+      if (token.isNotEmpty) {
+        logger.log(content: 'Token: $token');
         await Get.offAndToNamed(Routes.HOME);
       } else {
         await Get.offAndToNamed(Routes.AUTH);
@@ -27,29 +32,65 @@ class SplashController extends GetxController {
     }
   }
 
-  void loadLanguage(SharedPreferences storage) {
-    final language = storage.getString(StorageConstants.language);
-    if (language == null) {
-      Get.updateLocale(const Locale('vi', 'VN'));
-    }
-
-    if (language == VIETNAMESE_LANG) {
-      Get.updateLocale(const Locale('vi', 'VN'));
-      return;
-    }
-
-    Get.updateLocale(const Locale('en', 'US'));
+  Future<void> _initInfoDevice(GetSharedPreferences getSharedPreferences) async {
+    await Future.wait([
+      Future.delayed(const Duration(milliseconds: 500)),
+      _loadLanguageApp(getSharedPreferences),
+      _loadThemeApp(getSharedPreferences),
+    ]);
   }
 
-  void loadTheme(SharedPreferences storage) {
-    final theme = storage.getString(StorageConstants.theme);
-    if (theme == null || theme == LIGHT_THEME) {
-      Get.changeThemeMode(ThemeMode.light);
-      storage.setString(StorageConstants.theme, LIGHT_THEME);
-      return;
-    }
+  Future<void> _loadLanguageApp(GetSharedPreferences getSharedPreferences) async {
+    try {
+      final language = getSharedPreferences.value.getLocalLanguageApp();
+      if (language == VIETNAMESE_LANG) {
+        await Get.updateLocale(const Locale('vi', 'VN'));
+        return;
+      }
 
-    Get.changeThemeMode(ThemeMode.dark);
-    storage.setString(StorageConstants.theme, DARK_THEME);
+      await Get.updateLocale(const Locale('en', 'US'));
+    } catch (ex) {
+      logger.log(content: 'Cannot load language app');
+    }
+  }
+
+  Future<void> _loadThemeApp(GetSharedPreferences getSharedPreferences) async {
+    try {
+      await Future.delayed(const Duration(milliseconds: 1));
+      final theme = getSharedPreferences.value.getLocalThemeApp();
+      if (theme == LIGHT_THEME) {
+        Get.changeThemeMode(ThemeMode.light);
+        return;
+      }
+
+      Get.changeThemeMode(ThemeMode.dark);
+    } catch (ex) {
+      logger.log(content: 'Cannot load theme app');
+    }
+  }
+
+  @override
+  void onDetached() {
+    logger.log(content: 'onDetached');
+  }
+
+  @override
+  void onInactive() {
+    logger.log(content: 'onInactive');
+  }
+
+  @override
+  void onPaused() {
+    logger.log(content: 'onPaused');
+  }
+
+  @override
+  void onResumed() {
+    logger.log(content: 'onResumed');
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
   }
 }

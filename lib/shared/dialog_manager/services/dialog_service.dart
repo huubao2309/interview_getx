@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:interview_getx/shared/dialog_manager/data_models/request/language_dialog_resquest.dart';
-import 'package:interview_getx/shared/dialog_manager/data_models/response/language_dialog_response.dart';
 import 'package:interview_getx/shared/dialog_manager/data_models/request/common_dialog_request.dart';
+import 'package:interview_getx/shared/dialog_manager/data_models/request/language_dialog_resquest.dart';
 import 'package:interview_getx/shared/dialog_manager/data_models/response/common_dialog_response.dart';
+import 'package:interview_getx/shared/dialog_manager/data_models/response/language_dialog_response.dart';
 
 class DialogService {
   late Function(CommonDialogRequest) showCommonDialogListener;

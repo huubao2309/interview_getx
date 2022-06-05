@@ -1,21 +1,22 @@
 import 'dart:io';
 
+import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:interview_getx/data/common/define_field.dart';
+import 'package:interview_getx/routes/app_pages.dart';
 
 Object handleErrorGraphQL(OperationException exception) {
   if (exception.linkException != null) {
-    if(exception.linkException is ServerException){
+    if (exception.linkException is ServerException) {
       final message = exception.linkException!.originalException as SocketException;
       return message.osError!.message;
     }
     final statusCode = (exception.linkException as HttpLinkParserException).response.statusCode;
     _handleStatusCodeServer(exception, statusCode);
     return statusCode;
-
   } else {
-     _handleGraphQlErrorServer(exception, exception.graphqlErrors.first.extensions!['code']);
-     return exception.graphqlErrors.first.extensions!['code'];
+    _handleGraphQlErrorServer(exception, exception.graphqlErrors.first.extensions!['code']);
+    return exception.graphqlErrors.first.extensions!['code'];
   }
 }
 
@@ -45,10 +46,11 @@ void _handleStatusCodeServer(OperationException exception, int statusCode) {
   }
 }
 
-void _handleGraphQlErrorServer(OperationException exception, String code) {
+Future<void> _handleGraphQlErrorServer(OperationException exception, String code) async {
   switch (code) {
     case ACCESS_DENIED:
       print('401 Expired token: $exception');
+      await Get.offAllNamed(Routes.SPLASH);
       break;
     default:
       print('Error $code: $exception');

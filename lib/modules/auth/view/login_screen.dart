@@ -81,8 +81,8 @@ class LoginScreen extends StatelessWidget {
               text: 'login'.tr.toUpperCase(),
               textColor: Colors.green,
               backgroundColor: Colors.white,
-              onPressed: () {
-                controller.login(context);
+              onPressed: () async {
+                await controller.loginHandler(context);
               },
             ),
           ],

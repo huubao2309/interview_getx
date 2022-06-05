@@ -1,22 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:interview_getx/data/base/base_controller.dart';
+import 'package:interview_getx/domain/params/login_request.dart';
+import 'package:interview_getx/domain/params/register_request.dart';
+import 'package:interview_getx/domain/usecases/auth_usecase/login.dart';
+import 'package:interview_getx/domain/usecases/auth_usecase/register.dart';
+import 'package:interview_getx/domain/usecases/local_storage/get_shared_preferences.dart';
+import 'package:interview_getx/routes/app_pages.dart';
 import 'package:interview_getx/shared/dialog_manager/data_models/request/common_dialog_request.dart';
 import 'package:interview_getx/shared/dialog_manager/services/dialog_service.dart';
 import 'package:interview_getx/shared/utils/common_widget.dart';
 import 'package:interview_getx/shared/utils/focus.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../../../data/repository/api_repository.dart';
-import '../../../models/request/login_request.dart';
-import '../../../models/request/register_request.dart';
-import '../../../routes/app_pages.dart';
-import '../../../shared/constants/storage.dart';
+import 'package:interview_getx/shared/utils/logger/my_app_logger.dart';
 
-class AuthController extends BaseController {
-  AuthController({required this.apiRepository});
+class AuthController extends SuperController {
+  AuthController({
+    required this.login,
+    required this.register,
+  });
 
-  final ApiRepository apiRepository;
+  final Login login;
+  final Register register;
+
+  MyAppLogger get logger => const MyAppLogger('AuthController');
 
   GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
   final registerUserNameController = TextEditingController();
@@ -30,15 +36,15 @@ class AuthController extends BaseController {
 
   @override
   Future<void> onInit() async {
-    await super.onInit();
+    super.onInit();
   }
 
   @override
   Future<void> onReady() async {
-    await super.onReady();
+    super.onReady();
   }
 
-  Future<void> register(BuildContext context) async {
+  Future<void> registerHandler(BuildContext context) async {
     AppFocus.unFocus(context);
     if (registerFormKey.currentState!.validate()) {
       if (!registerTermsChecked) {
@@ -46,16 +52,16 @@ class AuthController extends BaseController {
         return;
       }
 
-      final res = await apiRepository.register(
+      final res = await register.callAsync(
         RegisterRequest(
           username: registerUserNameController.text,
           password: registerPasswordController.text,
         ),
       );
 
-      if (res == null) {
+      if (res.hasError) {
         await EasyLoading.dismiss();
-        await callDialogErrorNetwork();
+        // await callDialogErrorNetwork();
         return;
       }
 
@@ -74,26 +80,26 @@ class AuthController extends BaseController {
     }
   }
 
-  Future<void> login(BuildContext context) async {
+  Future<void> loginHandler(BuildContext context) async {
     AppFocus.unFocus(context);
     if (loginFormKey.currentState!.validate()) {
-      final res = await apiRepository.login(
+      final result = await login.callAsync(
         LoginRequest(
           username: loginUserNameController.text,
           password: loginPasswordController.text,
         ),
       );
 
-      if (res == null) {
+      if (result.hasError) {
         await EasyLoading.dismiss();
-        await callDialogErrorNetwork();
+        // await callDialogErrorNetwork();
         return;
       }
 
-      final prefs = Get.find<SharedPreferences>();
-      if (res.token.isNotEmpty) {
-        await prefs.setString(StorageConstants.token, res.token);
-        await prefs.setString(StorageConstants.userId, loginUserNameController.text);
+      final storage = Get.find<GetSharedPreferences>();
+      if (result.token != null && result.token!.isNotEmpty) {
+        await storage.value.setLocalToken(token: result.token!);
+        await storage.value.setLocalId(id: loginUserNameController.text);
         await Get.offAndToNamed(Routes.HOME);
       }
     }
@@ -105,10 +111,10 @@ class AuthController extends BaseController {
     final dialogResult = await locator.showDialog(dialogRequest);
 
     if (dialogResult.confirmed) {
-      print('User press confirm');
+      logger.log(content: 'User press confirm');
       await _handleEventDialog(dialogRequest.defineEvent);
     } else {
-      print('User press cancel!');
+      logger.log(content: 'User press cancel!');
     }
   }
 
@@ -117,6 +123,26 @@ class AuthController extends BaseController {
       default:
         break;
     }
+  }
+
+  @override
+  void onDetached() {
+    logger.log(content: 'onDetached');
+  }
+
+  @override
+  void onInactive() {
+    logger.log(content: 'onInactive');
+  }
+
+  @override
+  void onPaused() {
+    logger.log(content: 'onPaused');
+  }
+
+  @override
+  void onResumed() {
+    logger.log(content: 'onResumed');
   }
 
   @override

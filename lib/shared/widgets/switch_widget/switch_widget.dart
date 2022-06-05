@@ -19,7 +19,7 @@ class SwitchWidget extends StatelessWidget {
     return Switch(
       value: value,
       activeColor: Get.theme.primaryColor,
-      activeTrackColor: Get.theme.accentColor,
+      activeTrackColor: Get.theme.colorScheme.secondary,
       inactiveTrackColor: inactiveTrackColor ?? Get.theme.disabledColor,
       inactiveThumbColor: inactiveThumbColor ?? Get.theme.primaryColor,
       onChanged: onChanged,

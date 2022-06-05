@@ -60,4 +60,5 @@ const Map<String, String> en_US = {
   'network_error_message': 'Fail to connect network.',
   'user': 'User',
   'created_date': 'Created Date',
+  'error_no_define': 'Has an error occurred!',
 };

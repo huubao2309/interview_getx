@@ -1,9 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:interview_getx/modules/auth/controller/auth_controller.dart';
 import 'package:interview_getx/routes/app_pages.dart';
 import 'package:interview_getx/shared/constants/common.dart';
-import 'package:get/get.dart';
 import 'package:interview_getx/shared/utils/size_config.dart';
 import 'package:interview_getx/shared/widgets/button/border_button.dart';
 import 'package:interview_getx/shared/widgets/button/gradient_button.dart';

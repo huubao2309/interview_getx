@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:interview_getx/models/response/error_response.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/request/request.dart';
+import 'package:interview_getx/data/models/error/error_response.dart';
 import 'package:interview_getx/shared/utils/common_widget.dart';
 
 FutureOr<dynamic> responseInterceptor(Request request, Response response) async {

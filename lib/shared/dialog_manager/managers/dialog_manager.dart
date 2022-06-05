@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:interview_getx/shared/dialog_manager/data_models/request/common_dialog_request.dart';
 import 'package:interview_getx/shared/dialog_manager/data_models/request/language_dialog_resquest.dart';
 import 'package:interview_getx/shared/dialog_manager/data_models/response/common_dialog_response.dart';
 import 'package:interview_getx/shared/dialog_manager/data_models/response/language_dialog_response.dart';
 import 'package:interview_getx/shared/dialog_manager/data_models/type_dialog.dart';
-import 'package:get/get.dart';
 import 'package:interview_getx/shared/dialog_manager/services/dialog_service.dart';
 import 'package:interview_getx/shared/dialog_manager/view/chosen_language_dialog.dart';
 import 'package:interview_getx/shared/dialog_manager/view/dialog_one_button.dart';
 import 'package:interview_getx/shared/dialog_manager/view/dialog_two_button.dart';
 
 class DialogManager extends StatefulWidget {
-  const DialogManager({required this.child, Key? key}) : super(key: key);
+  const DialogManager({required this.child});
 
   final Widget child;
 
@@ -25,6 +25,12 @@ class _DialogManagerState extends State<DialogManager> {
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
     _dialogService
       ..showCommonDialogListener = _showDialog
       ..showLanguageDialogListener = _showLanguageDialog;
@@ -36,22 +42,16 @@ class _DialogManagerState extends State<DialogManager> {
   }
 
   Future<void> _showDialog(CommonDialogRequest request) async {
-    await showDialog(
-      context: context,
+    await Get.dialog(
+      _chooseTypeDialog(request),
       barrierDismissible: request.isMustTapButton ?? false, // user must tap button!
-      builder: (context) {
-        return _chooseTypeDialog(request);
-      },
     );
   }
 
   Future<void> _showLanguageDialog(LanguageDialogRequest request) async {
-    await showDialog(
-      context: context,
+    await Get.dialog(
+      _dialogLanguage(request),
       barrierDismissible: request.isMustTapButton ?? false, // user must tap button!
-      builder: (context) {
-        return _dialogLanguage(request);
-      },
     );
   }
 
@@ -76,7 +76,7 @@ class _DialogManagerState extends State<DialogManager> {
       onPressed: () async {
         _dialogService.commonDialogComplete(CommonDialogResponse(confirmed: true));
         // Hide popup
-        Navigator.of(context).pop('dialog');
+        Get.back();
       },
     );
   }
@@ -87,11 +87,11 @@ class _DialogManagerState extends State<DialogManager> {
       content: request.description,
       onPressedAgree: () {
         _dialogService.commonDialogComplete(CommonDialogResponse(confirmed: true));
-        Navigator.of(context).pop('dialog');
+        Get.back();
       },
       onPressedCancel: () {
         _dialogService.commonDialogComplete(CommonDialogResponse(confirmed: false));
-        Navigator.of(context).pop('dialog');
+        Get.back();
       },
     );
   }
@@ -101,7 +101,7 @@ class _DialogManagerState extends State<DialogManager> {
       languages: request.languages,
       onChooseLanguage: (language) {
         _dialogService.languageDialogComplete(LanguageDialogResponse(language: language));
-        Navigator.of(context).pop('dialog');
+        Get.back();
       },
     );
   }

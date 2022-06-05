@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:interview_getx/models/todos_model/todo_model.dart';
+import 'package:interview_getx/domain/entities/todos/todo_model.dart';
 import 'package:interview_getx/shared/styles/text_style.dart';
 import 'package:interview_getx/shared/utils/common_widget.dart';
 import 'package:intl/intl.dart';
@@ -22,7 +22,7 @@ class _DetailTodoScreenState extends State<DetailTodoScreen> {
   @override
   Widget build(BuildContext context) {
     final formatter = DateFormat('dd-MM-yyyy hh:mm:ss');
-    final item = widget.item as TodoModel;
+    final item = widget.item as TodoItem;
     return Scaffold(
       appBar: CommonWidget.appBar(
         context,

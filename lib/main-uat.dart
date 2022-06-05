@@ -6,7 +6,7 @@ import 'main_app.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await DependencyInjection.init(UAT_ENVIRONMENT);
+  await DependencyInjection().init(UAT_ENVIRONMENT);
 
   runApp(App());
   configLoading();

@@ -34,7 +34,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -42,9 +42,9 @@ android {
 
     defaultConfig {
         applicationId "com.example.interview_getx"
-        minSdkVersion 21
-        targetSdkVersion 30
-        renderscriptTargetApi 21
+        minSdkVersion 23
+        targetSdkVersion 31
+        renderscriptTargetApi 23
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 

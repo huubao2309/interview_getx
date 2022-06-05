@@ -1,22 +1,22 @@
-import 'package:interview_getx/models/todos_model/todo_model.dart';
-import 'package:interview_getx/models/user_model/user_model.dart';
-import '../../data/graphql/query/demo_query_graphql.dart';
+import 'package:interview_getx/data/graphql/query/demo_query_graphql.graphql.dart';
+import 'package:interview_getx/domain/entities/todos/todo_model.dart';
+import 'package:interview_getx/domain/entities/user/user_model.dart';
 
 Error createError(String errorStr) {
   final Error error = ArgumentError(errorStr);
   return error;
 }
 
-List<TodoModel> convertListTodoModel(List<GetActiveTodos$QueryRoot$Todos> list) {
-  final listTodo = <TodoModel>[];
+List<TodoItem> convertListTodoModel(List<GetActiveTodos$QueryRoot$Todos> list) {
+  final listTodo = <TodoItem>[];
   for (final item in list) {
     listTodo.add(convertTodoModel(item));
   }
   return listTodo;
 }
 
-TodoModel convertTodoModel(GetActiveTodos$QueryRoot$Todos todo) {
-  return TodoModel(
+TodoItem convertTodoModel(GetActiveTodos$QueryRoot$Todos todo) {
+  return TodoItem(
     createdAt: todo.createdAt,
     id: todo.id,
     title: todo.title,
