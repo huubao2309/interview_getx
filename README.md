@@ -4,7 +4,7 @@
 ## FRAMEWORK:
 
 ```dart
-	Flutter: 2.2.1
+	Flutter: 3.0.1
 	IDE: Android studio v4.2.1
 ```
 
