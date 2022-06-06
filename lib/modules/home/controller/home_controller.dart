@@ -13,7 +13,6 @@ import 'package:interview_getx/modules/home/tabs/setting_tab.dart';
 import 'package:interview_getx/modules/home/tabs/tabs.dart';
 import 'package:interview_getx/routes/app_pages.dart';
 import 'package:interview_getx/shared/constants/common.dart';
-import 'package:interview_getx/shared/constants/storage.dart';
 import 'package:interview_getx/shared/dialog_manager/data_models/request/common_dialog_request.dart';
 import 'package:interview_getx/shared/dialog_manager/data_models/type_dialog.dart';
 import 'package:interview_getx/shared/dialog_manager/services/dialog_service.dart';
@@ -27,7 +26,6 @@ class HomeController extends SuperController {
 
   MyAppLogger get logger => const MyAppLogger('HomeController');
 
-  var currentTab = MainTabs.home.obs;
   var userApp = Rxn<String>();
   var totalListItems = RxList<TodoItem>();
 
@@ -36,6 +34,7 @@ class HomeController extends SuperController {
 
   late MainTab mainTab;
   late SettingTab settingTab;
+  var currentTab = MainTabs.home.obs;
 
   final int stepLimitItem = 10;
   RxInt offsetItem = 0.obs;

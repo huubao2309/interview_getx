@@ -56,7 +56,12 @@ class RemoteDataSourceImpl implements RemoteDataSource {
     }
 
     // Has error + message to Server
-    final messageError = handleErrorGraphQL(results.exception!).toString();
+    final error = await handleErrorGraphQL(results.exception!);
+    if (error is int) {
+      throw ServerException(statusCode: 401, errorMessage: 'Token is expired');
+    }
+
+    final messageError = 'error_no_define'.tr;
     throw ServerException(errorMessage: messageError);
   }
 }

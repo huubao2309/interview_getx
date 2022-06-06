@@ -52,6 +52,7 @@ class AuthController extends SuperController {
         return;
       }
 
+      await EasyLoading.show();
       final res = await register.callAsync(
         RegisterRequest(
           username: registerUserNameController.text,
@@ -61,10 +62,16 @@ class AuthController extends SuperController {
 
       if (res.hasError) {
         await EasyLoading.dismiss();
-        // await callDialogErrorNetwork();
+        final request = CommonDialogRequest(
+          title: 'error'.tr,
+          description: 'error_login'.tr,
+          isMustTapButton: true,
+        );
+        await _doShowDialog(request);
         return;
       }
 
+      await EasyLoading.dismiss();
       if (res.id!.isNotEmpty) {
         // Set Text for Login
         loginUserNameController.text = res.id!;
@@ -83,19 +90,26 @@ class AuthController extends SuperController {
   Future<void> loginHandler(BuildContext context) async {
     AppFocus.unFocus(context);
     if (loginFormKey.currentState!.validate()) {
+      await EasyLoading.show();
       final result = await login.callAsync(
         LoginRequest(
-          username: loginUserNameController.text,
-          password: loginPasswordController.text,
+          username: loginUserNameController.text.trim(),
+          password: loginPasswordController.text.trim(),
         ),
       );
 
       if (result.hasError) {
         await EasyLoading.dismiss();
-        // await callDialogErrorNetwork();
+        final request = CommonDialogRequest(
+          title: 'error'.tr,
+          description: 'error_login'.tr,
+          isMustTapButton: true,
+        );
+        await _doShowDialog(request);
         return;
       }
 
+      await EasyLoading.dismiss();
       final storage = Get.find<GetSharedPreferences>();
       if (result.token != null && result.token!.isNotEmpty) {
         await storage.value.setLocalToken(token: result.token!);
@@ -105,23 +119,14 @@ class AuthController extends SuperController {
     }
   }
 
-  // ignore: unused_element
   Future<void> _doShowDialog(CommonDialogRequest dialogRequest) async {
     final locator = Get.find<DialogService>();
     final dialogResult = await locator.showDialog(dialogRequest);
 
     if (dialogResult.confirmed) {
       logger.log(content: 'User press confirm');
-      await _handleEventDialog(dialogRequest.defineEvent);
     } else {
       logger.log(content: 'User press cancel!');
-    }
-  }
-
-  Future<void> _handleEventDialog(String? defineEvent) async {
-    switch (defineEvent) {
-      default:
-        break;
     }
   }
 

@@ -32,7 +32,7 @@ class TodoRepositoryImpl implements TodoRepository {
       final result = convertListTodoModel(resultModel.todos);
       return Todos(items: result);
     } on ServerException catch (ex) {
-      return Todos.converter(hasError: true, messageError: ex.toString(), statusCode: ex.statusCode);
+      return Todos.converter(hasError: true, messageError: ex.errorMessage.toString(), statusCode: ex.statusCode);
     } catch (ex) {
       return Todos.converter(hasError: true, messageError: 'error_no_define'.tr);
     }

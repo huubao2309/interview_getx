@@ -10,7 +10,8 @@ class GetListTodo implements UseCase<Todos, GetListTodoRequest> {
 
   @override
   Future<Todos> callAsync(GetListTodoRequest request) async {
-    return await repository.getListTodo(request: request);
+    final result = await repository.getListTodo(request: request);
+    return result;
   }
 
   @override
