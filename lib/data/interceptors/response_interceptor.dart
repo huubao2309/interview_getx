@@ -22,18 +22,18 @@ void handleErrorStatus(Response response) {
   switch (response.statusCode) {
     case 400:
       final message = ErrorResponse.fromJson(response.body);
-      CommonWidget.toast(message.error ?? message.type!);
+      CommonWidget.instance.toast(message.error ?? message.type!);
       break;
     case 401:
       final message = ErrorResponse.fromJson(response.body);
-      CommonWidget.toast(message.error ?? message.type!);
+      CommonWidget.instance.toast(message.error ?? message.type!);
       break;
     case 500:
       final message = ErrorResponse.fromJson(response.body);
-      CommonWidget.toast(message.error ?? message.type!);
+      CommonWidget.instance.toast(message.error ?? message.type!);
       break;
     default:
-      CommonWidget.toast('unknown_error'.tr);
+      CommonWidget.instance.toast('unknown_error'.tr);
       break;
   }
 

@@ -11,7 +11,7 @@ class MainTab extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CommonWidget.appBar(context, 'home'.tr.toUpperCase()),
+      appBar: CommonWidget.instance.appBar(context, 'home'.tr.toUpperCase()),
       body: Stack(
         children: [
           Padding(
@@ -35,7 +35,7 @@ class MainTab extends GetView<HomeController> {
           final metrics = scrollEnd.metrics;
           if (metrics.atEdge) {
             if (metrics.pixels == 0) {
-              print('At top ListView');
+              debugPrint('At top ListView');
             } else {
               // At Bottom ListView
               if (controller.totalListItems.isNotEmpty &&
@@ -82,12 +82,12 @@ class MainTab extends GetView<HomeController> {
                   children: [
                     Text(
                       '${'id'.tr}: ',
-                      style: TextAppStyle().bodyTitleTextStyle(),
+                      style: TextAppStyle.instance.bodyTitleTextStyle(),
                     ),
                     const SizedBox(width: 5),
                     Text(
                       item.id.toString(),
-                      style: TextAppStyle().bodyContentTextStyle(),
+                      style: TextAppStyle.instance.bodyContentTextStyle(),
                     ),
                   ],
                 ),
@@ -98,12 +98,12 @@ class MainTab extends GetView<HomeController> {
                   children: [
                     Text(
                       '${'title'.tr}: ',
-                      style: TextAppStyle().bodyTitleTextStyle(),
+                      style: TextAppStyle.instance.bodyTitleTextStyle(),
                     ),
                     const SizedBox(width: 5),
                     Text(
                       item.title ?? '',
-                      style: TextAppStyle().bodyContentTextStyle(),
+                      style: TextAppStyle.instance.bodyContentTextStyle(),
                     ),
                   ],
                 ),
@@ -123,7 +123,7 @@ class MainTab extends GetView<HomeController> {
       child: Center(
         child: Text(
           controller.userApp.value ?? 'no_name'.tr,
-          style: TextAppStyle().bodyContentTextStyle(),
+          style: TextAppStyle.instance.bodyContentTextStyle(),
           textAlign: TextAlign.center,
         ),
       ),

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:interview_getx/shared/styles/text_style.dart';
 
 class NormalIconStyle {
-  Color? get iconTextColor => TextAppStyle().bodyWhiteTextStyle().color;
+  Color? get iconTextColor => TextAppStyle.instance.bodyWhiteTextStyle().color;
 
   double? get size => 16;
 }

@@ -28,11 +28,11 @@ class SplashScreen extends StatelessWidget {
               child: Text.rich(
                 TextSpan(
                   text: '${'version'.tr}: ',
-                  style: TextAppStyle().versionTextStyle(),
+                  style: TextAppStyle.instance.versionTextStyle(),
                   children: [
                     TextSpan(
                       text: '1.0.0',
-                      style: TextAppStyle().bodyContentTextStyle(),
+                      style: TextAppStyle.instance.bodyContentTextStyle(),
                     ),
                     // can add more TextSpans here...
                   ],

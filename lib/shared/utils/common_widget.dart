@@ -3,7 +3,14 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 class CommonWidget {
-  static AppBar appBar(BuildContext context, String title, {void Function()? callback, IconData? backIcon, Color? color, bool? automaticallyImplyLeading}) {
+  CommonWidget._();
+
+  static final CommonWidget _instance = CommonWidget._();
+
+  static CommonWidget get instance => _instance;
+
+  AppBar appBar(BuildContext context, String title,
+      {void Function()? callback, IconData? backIcon, Color? color, bool? automaticallyImplyLeading}) {
     return AppBar(
       automaticallyImplyLeading: automaticallyImplyLeading ?? false,
       leading: backIcon == null
@@ -27,15 +34,15 @@ class CommonWidget {
     );
   }
 
-  static SizedBox rowHeight({double height = 30}) {
+  SizedBox rowHeight({double height = 30}) {
     return SizedBox(height: height);
   }
 
-  static SizedBox rowWidth({double width = 30}) {
+  SizedBox rowWidth({double width = 30}) {
     return SizedBox(width: width);
   }
 
-  static Future<void> toast(String error) async {
+  Future<void> toast(String error) async {
     await Fluttertoast.showToast(
         msg: error,
         toastLength: Toast.LENGTH_SHORT,
@@ -46,7 +53,7 @@ class CommonWidget {
         fontSize: 16);
   }
 
-  static Future<void> snackBar(String error) async {
+  Future<void> snackBar(String error) async {
     Get.snackbar(
       'error'.tr,
       error,

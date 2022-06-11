@@ -24,7 +24,7 @@ class _DetailTodoScreenState extends State<DetailTodoScreen> {
     final formatter = DateFormat('dd-MM-yyyy hh:mm:ss');
     final item = widget.item as TodoItem;
     return Scaffold(
-      appBar: CommonWidget.appBar(
+      appBar: CommonWidget.instance.appBar(
         context,
         item.id.toString(),
         automaticallyImplyLeading: true,
@@ -46,12 +46,12 @@ class _DetailTodoScreenState extends State<DetailTodoScreen> {
                       children: [
                         Text(
                           '${'id'.tr}: ',
-                          style: TextAppStyle().bodyTitleTextStyle(),
+                          style: TextAppStyle.instance.bodyTitleTextStyle(),
                         ),
                         const SizedBox(width: 5),
                         Text(
                           item.id.toString(),
-                          style: TextAppStyle().bodyContentTextStyle(),
+                          style: TextAppStyle.instance.bodyContentTextStyle(),
                         ),
                       ],
                     ),
@@ -62,12 +62,12 @@ class _DetailTodoScreenState extends State<DetailTodoScreen> {
                       children: [
                         Text(
                           '${'title'.tr}: ',
-                          style: TextAppStyle().bodyTitleTextStyle(),
+                          style: TextAppStyle.instance.bodyTitleTextStyle(),
                         ),
                         const SizedBox(width: 5),
                         Text(
                           item.title ?? '',
-                          style: TextAppStyle().bodyContentTextStyle(),
+                          style: TextAppStyle.instance.bodyContentTextStyle(),
                         ),
                       ],
                     ),
@@ -78,12 +78,12 @@ class _DetailTodoScreenState extends State<DetailTodoScreen> {
                       children: [
                         Text(
                           '${'user'.tr}: ',
-                          style: TextAppStyle().bodyTitleTextStyle(),
+                          style: TextAppStyle.instance.bodyTitleTextStyle(),
                         ),
                         const SizedBox(width: 5),
                         Text(
                           item.user!.name ?? '',
-                          style: TextAppStyle().bodyContentTextStyle(),
+                          style: TextAppStyle.instance.bodyContentTextStyle(),
                         ),
                       ],
                     ),
@@ -94,12 +94,12 @@ class _DetailTodoScreenState extends State<DetailTodoScreen> {
                       children: [
                         Text(
                           '${'created_date'.tr}: ',
-                          style: TextAppStyle().bodyTitleTextStyle(),
+                          style: TextAppStyle.instance.bodyTitleTextStyle(),
                         ),
                         const SizedBox(width: 5),
                         Text(
                           formatter.format(item.createdAt!),
-                          style: TextAppStyle().bodyContentTextStyle(),
+                          style: TextAppStyle.instance.bodyContentTextStyle(),
                         ),
                       ],
                     ),

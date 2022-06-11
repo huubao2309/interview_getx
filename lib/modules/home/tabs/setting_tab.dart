@@ -7,12 +7,10 @@ import 'package:interview_getx/shared/utils/common_widget.dart';
 import 'package:interview_getx/shared/widgets/switch_widget/switch_widget.dart';
 
 class SettingTab extends GetView<HomeController> {
-  final TextAppStyle textAppStyle = TextAppStyle();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CommonWidget.appBar(context, 'setting'.tr.toUpperCase()),
+      appBar: CommonWidget.instance.appBar(context, 'setting'.tr.toUpperCase()),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -55,7 +53,7 @@ class SettingTab extends GetView<HomeController> {
               const SizedBox(width: 12),
               Text(
                 controller.userApp.value ?? 'no_name'.tr,
-                style: textAppStyle.bodyContentTextStyle(),
+                style: TextAppStyle.instance.bodyContentTextStyle(),
               ),
             ],
           ),
@@ -93,7 +91,7 @@ class SettingTab extends GetView<HomeController> {
                 const SizedBox(width: 12),
                 Text(
                   'translate'.tr,
-                  style: TextAppStyle().bodyContentTextStyle(),
+                  style: TextAppStyle.instance.bodyContentTextStyle(),
                 ),
                 const Spacer(),
                 Icon(Icons.navigate_next, color: Get.theme.primaryColor),
@@ -130,7 +128,7 @@ class SettingTab extends GetView<HomeController> {
               const SizedBox(width: 12),
               Text(
                 'theme'.tr,
-                style: TextAppStyle().bodyContentTextStyle(),
+                style: TextAppStyle.instance.bodyContentTextStyle(),
               ),
               const Spacer(),
               // Icon(Icons.navigate_next, color: context.theme.primaryColor),
@@ -178,7 +176,7 @@ class SettingTab extends GetView<HomeController> {
                 const SizedBox(width: 12),
                 Text(
                   'logout'.tr,
-                  style: TextAppStyle().bodyContentTextStyle(),
+                  style: TextAppStyle.instance.bodyContentTextStyle(),
                 ),
                 const Spacer(),
                 Icon(Icons.navigate_next, color: Get.theme.primaryColor),
@@ -198,12 +196,12 @@ class SettingTab extends GetView<HomeController> {
           children: [
             Text(
               'version'.tr,
-              style: TextAppStyle().versionTextStyle(),
+              style: TextAppStyle.instance.versionTextStyle(),
             ),
             const SizedBox(width: 5),
             Text(
               '1.0.0',
-              style: TextAppStyle().versionTextStyle(),
+              style: TextAppStyle.instance.versionTextStyle(),
             ),
           ],
         ),
@@ -212,11 +210,11 @@ class SettingTab extends GetView<HomeController> {
           children: [
             Text(
               '© 2021 - Designed by ',
-              style: TextAppStyle().prefixDesignTextStyle(),
+              style: TextAppStyle.instance.prefixDesignTextStyle(),
             ),
             Text(
               'BaoNH',
-              style: TextAppStyle().suffixDesignTextStyle(),
+              style: TextAppStyle.instance.suffixDesignTextStyle(),
             ),
           ],
         ),

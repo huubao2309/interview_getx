@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:interview_getx/modules/auth/controller/auth_controller.dart';
 import 'package:interview_getx/shared/utils/common_widget.dart';
-import 'package:interview_getx/shared/utils/regex.dart';
 import 'package:interview_getx/shared/widgets/background/gradient_background.dart';
 import 'package:interview_getx/shared/widgets/button/border_button.dart';
 import 'package:interview_getx/shared/widgets/check_box/app_check_box.dart';
@@ -19,7 +18,7 @@ class RegisterScreen extends StatelessWidget {
         const GradientBackground(),
         Scaffold(
           backgroundColor: Colors.transparent,
-          appBar: CommonWidget.appBar(
+          appBar: CommonWidget.instance.appBar(
             context,
             'register'.tr.toUpperCase(),
             backIcon: Icons.arrow_back,
@@ -51,37 +50,18 @@ class RegisterScreen extends StatelessWidget {
               keyboardType: TextInputType.text,
               labelText: 'email_address'.tr,
               placeholder: 'enter_email_address'.tr,
-              validator: (value) {
-                if (!Regex.isEmail(value!)) {
-                  return 'email_format_error'.tr;
-                }
-
-                if (value.isEmpty) {
-                  return 'email_required'.tr;
-                }
-                return null;
-              },
+              validator: controller.validateEmailHandler,
             ),
-            CommonWidget.rowHeight(),
+            CommonWidget.instance.rowHeight(),
             InputField(
               controller: controller.registerPasswordController,
               keyboardType: TextInputType.emailAddress,
               labelText: 'password'.tr,
               placeholder: 'enter_password'.tr,
               password: true,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'password_required'.tr;
-                }
-
-                if (value.length < 6 || value.length > 15) {
-                  return 'password_required_length'.tr;
-                }
-
-                return null;
-              },
+              validator: controller.validatePasswordHandler,
             ),
-            CommonWidget.rowHeight(),
+            CommonWidget.instance.rowHeight(),
             InputField(
               controller: controller.registerConfirmPasswordController,
               keyboardType: TextInputType.emailAddress,
@@ -99,7 +79,7 @@ class RegisterScreen extends StatelessWidget {
                 return null;
               },
             ),
-            CommonWidget.rowHeight(height: 10),
+            CommonWidget.instance.rowHeight(height: 10),
             AppCheckbox(
               label: 'conditions_policy'.tr,
               checked: controller.registerTermsChecked,
@@ -107,7 +87,7 @@ class RegisterScreen extends StatelessWidget {
                 controller.registerTermsChecked = val!;
               },
             ),
-            CommonWidget.rowHeight(height: 35),
+            CommonWidget.instance.rowHeight(height: 35),
             BorderButton(
               text: 'register'.tr.toUpperCase(),
               textColor: Colors.green,

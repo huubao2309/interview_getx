@@ -16,7 +16,7 @@ class SharedPreferencesSourceImpl implements SharedPreferencesSource {
 
   @override
   Future<void> setLocalId({required String? id}) async {
-    await sharedPreferences.setString(StorageConstants.theme, id ?? '');
+    await sharedPreferences.setString(StorageConstants.userId, id ?? '');
   }
 
   @override

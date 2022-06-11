@@ -9,6 +9,7 @@ import 'package:interview_getx/domain/usecases/local_storage/get_shared_preferen
 import 'package:interview_getx/routes/app_pages.dart';
 import 'package:interview_getx/shared/dialog_manager/data_models/request/common_dialog_request.dart';
 import 'package:interview_getx/shared/dialog_manager/services/dialog_service.dart';
+import 'package:interview_getx/shared/helpers/validators.dart';
 import 'package:interview_getx/shared/utils/common_widget.dart';
 import 'package:interview_getx/shared/utils/focus.dart';
 import 'package:interview_getx/shared/utils/logger/my_app_logger.dart';
@@ -48,7 +49,7 @@ class AuthController extends SuperController {
     AppFocus.unFocus(context);
     if (registerFormKey.currentState!.validate()) {
       if (!registerTermsChecked) {
-        await CommonWidget.toast('Please check the terms first.');
+        await CommonWidget.instance.toast('Please check the terms first.');
         return;
       }
 
@@ -128,6 +129,18 @@ class AuthController extends SuperController {
     } else {
       logger.log(content: 'User press cancel!');
     }
+  }
+
+  String? validateEmailHandler(String? value) {
+    final validators = Validators();
+    final result = validators.validateEmail(value);
+    return result;
+  }
+
+  String? validatePasswordHandler(String? value) {
+    final validators = Validators();
+    final result = validators.validatePassword(value);
+    return result;
   }
 
   @override

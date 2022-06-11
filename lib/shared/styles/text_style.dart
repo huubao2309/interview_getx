@@ -3,6 +3,12 @@ import 'package:get/get.dart';
 import 'package:interview_getx/shared/theme/theme_style/text_theme.dart';
 
 class TextAppStyle {
+  TextAppStyle._();
+
+  static final TextAppStyle _instance = TextAppStyle._();
+
+  static TextAppStyle get instance => _instance;
+
   final TextThemeApp textThemeApp = TextThemeApp();
 
   TextStyle titleTextStyle() {
